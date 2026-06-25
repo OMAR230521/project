@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CosmicBackground from './components/CosmicBackground';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
+import LoadingScreen from './components/LoadingScreen';
 import { CartProvider } from './context/CartContext';
 import Home from './pages/Home';
 import Discord from './pages/Discord';
@@ -20,10 +21,28 @@ function ScrollToTop() {
 }
 
 function AppContent() {
+  const [showLoading, setShowLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const hasSeenLoading = sessionStorage.getItem('app-loading-shown');
+    if (!hasSeenLoading) {
+      setShowLoading(true);
+    } else {
+      setIsReady(true);
+    }
+  }, []);
+
+  const handleLoadingFinish = () => {
+    sessionStorage.setItem('app-loading-shown', 'true');
+    setShowLoading(false);
+    setIsReady(true);
+  };
+
   return (
     <div className="relative min-h-screen" style={{ background: '#060610' }}>
       <CosmicBackground />
-      <div className="relative z-10">
+      <div className={`relative z-10 ${showLoading ? 'pointer-events-none' : ''}`}>
         <Navbar />
         <main>
           <Routes>
@@ -39,7 +58,8 @@ function AppContent() {
         <Footer />
         <CartSidebar />
       </div>
-      <ScrollToTop />
+      {showLoading && <LoadingScreen onFinish={handleLoadingFinish} />}
+      {isReady && <ScrollToTop />}
     </div>
   );
 }
