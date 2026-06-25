@@ -24,7 +24,6 @@ Deno.serve(async (req: Request) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL") || "https://qlsmrviqbvqpgcuqondr.supabase.co";
     const serviceRoleKey = Deno.env.get("SERVICE_ROLE_KEY");
 
     if (!serviceRoleKey) {
@@ -34,7 +33,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const supabase = createClient("https://qlsmrviqbvqpgcuqondr.supabase.co", serviceRoleKey);
 
     const body = await req.json();
     const { items, minecraft_nick, payment_method } = body;
@@ -112,9 +111,10 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Error desconocido";
+    console.error("Error en create-checkout:", err);
+    const message = err instanceof Error ? err.message : String(err);
     return new Response(
-      JSON.stringify({ error: message }),
+      JSON.stringify({ error: message, details: String(err) }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
