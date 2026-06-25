@@ -24,11 +24,11 @@ Deno.serve(async (req: Request) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
 
-    const serviceRoleKey = Deno.env.get("SERVICE_ROLE_KEY");
+    const serviceRoleKey = Deno.env.get("SR_KEY");
 
     if (!serviceRoleKey) {
       return new Response(
-        JSON.stringify({ error: "SERVICE_ROLE_KEY no configurado. Contacta al administrador." }),
+        JSON.stringify({ error: "SR_KEY no configurado. Contacta al administrador." }),
         { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
