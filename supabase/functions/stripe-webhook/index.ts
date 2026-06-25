@@ -27,10 +27,17 @@ Deno.serve(async (req: Request) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SERVICE_ROLE_KEY")!
-    );
+    const supabaseUrl = Deno.env.get("SUPABASE_URL") || "https://qlsmrviqbvqpgcuqondr.supabase.co";
+    const serviceRoleKey = Deno.env.get("SERVICE_ROLE_KEY");
+
+    if (!serviceRoleKey) {
+      return new Response(
+        JSON.stringify({ error: "SERVICE_ROLE_KEY no configurado" }),
+        { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, serviceRoleKey);
 
     const body = await req.text();
     const signature = req.headers.get("stripe-signature");
