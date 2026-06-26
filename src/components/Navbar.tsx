@@ -18,46 +18,25 @@ function DiamondSword({ isOpen, onClick }: { isOpen: boolean; onClick: () => voi
       className={`diamond-sword p-1 ${isOpen ? 'active' : ''}`}
       aria-label="Abrir menú"
     >
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#A8F5FF" />
-            <stop offset="25%" stop-color="#7AEEFF" />
-            <stop offset="55%" stop-color="#3BC9DA" />
-            <stop offset="100%" stop-color="#1FA8C0" />
-          </linearGradient>
-          <linearGradient id="bladeHighlight" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#B5F5FF" />
-            <stop offset="100%" stop-color="#7AEEFF" />
-          </linearGradient>
-        </defs>
-        <g transform="translate(18,18) rotate(45) translate(-18,-18)">
-          {/* Blade - diamond shaped */}
-          <path d="M14.5 0 L21.5 0 L21.5 4 L19 8 L19 15 L17 15 L17 8 L14.5 4 Z" fill="url(#bladeGrad)" />
-          {/* Blade core highlight */}
-          <path d="M15.5 0.5 L20.5 0.5 L20.5 3.5 L18.5 7 L18.5 14 L17.5 14 L17.5 7 L15.5 3.5 Z" fill="url(#bladeHighlight)" opacity="0.6" />
-          {/* Blade tip sparkle */}
-          <path d="M16.5 0.3 L19.5 0.3" stroke="#D5F7FF" stroke-width="1.2" stroke-linecap="round" opacity="0.9" />
-          {/* Guard / Crossguard (empuñadura) */}
-          <rect x="11" y="15" width="14" height="3" rx="0.8" fill="#1A1A2E" />
-          <rect x="11.5" y="15.3" width="13" height="0.6" fill="#3D3D5C" rx="0.3" />
-          <rect x="11.5" y="17" width="13" height="0.5" fill="#0D0D1A" rx="0.3" />
-          {/* Guard gem (diamond) */}
-          <rect x="15.5" y="15.8" width="3" height="1.5" rx="0.3" fill="#7AEEFF" opacity="0.6" />
-          <rect x="16" y="16" width="2" height="1" rx="0.2" fill="#A8F5FF" opacity="0.4" />
-          {/* Handle / Mango */}
-          <rect x="13.5" y="18" width="7" height="5" rx="1.2" fill="#7B5C12" />
-          <rect x="13.5" y="18" width="7" height="5" rx="1.2" fill="url(#bladeGrad)" opacity="0" />
-          {/* Handle wrapping lines */}
-          <rect x="14" y="18.7" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          <rect x="14" y="20.2" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          <rect x="14" y="21.7" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          {/* Handle highlight */}
-          <rect x="14.5" y="18.3" width="1.5" height="4.5" fill="#C49A28" opacity="0.2" rx="0.5" />
-          {/* Pommel */}
-          <rect x="14.5" y="23" width="5" height="2.5" rx="0.8" fill="#1A1A2E" />
-          <rect x="15" y="23.3" width="4" height="0.4" fill="#3D3D5C" rx="0.2" />
-        </g>
+      <svg width="32" height="32" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Diamond sword pixel art */}
+        <rect x="2" y="1" width="2" height="2" fill="#5CE8F5" />
+        <rect x="4" y="1" width="2" height="2" fill="#7AEEFF" />
+        <rect x="4" y="3" width="2" height="2" fill="#5CE8F5" />
+        <rect x="2" y="3" width="2" height="2" fill="#3BC9DA" />
+        <rect x="6" y="3" width="2" height="2" fill="#7AEEFF" />
+        <rect x="6" y="5" width="2" height="2" fill="#5CE8F5" />
+        <rect x="4" y="5" width="2" height="2" fill="#3BC9DA" />
+        <rect x="8" y="5" width="2" height="2" fill="#7AEEFF" />
+        <rect x="8" y="7" width="2" height="2" fill="#5CE8F5" />
+        <rect x="6" y="7" width="2" height="2" fill="#3BC9DA" />
+        <rect x="10" y="7" width="2" height="2" fill="#5CE8F5" />
+        <rect x="10" y="9" width="2" height="2" fill="#3BC9DA" />
+        {/* Handle */}
+        <rect x="9" y="11" width="2" height="2" fill="#8B6914" />
+        <rect x="7" y="11" width="2" height="2" fill="#C49A28" />
+        <rect x="7" y="13" width="2" height="2" fill="#8B6914" />
+        <rect x="9" y="13" width="2" height="2" fill="#C49A28" />
       </svg>
     </button>
   );
