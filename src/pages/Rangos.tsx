@@ -94,6 +94,21 @@ const RANKS: Rank[] = [
       'Soporte prioritario',
     ],
   },
+  {
+    id: 'rank-eterno',
+    name: 'Eterno',
+    price: 49.99,
+    color: '#ff4444',
+    glowColor: 'rgba(255, 68, 68, 0.4)',
+    icon: Sparkles,
+    badge: 'ETERNO',
+    benefits: [
+      'Todo lo de Supremo',
+      'Prefijo [Eterno] rojo',
+      'Kit Eterno semanal',
+      'Efecto especial único',
+    ],
+  },
 ];
 
 interface Accessory {
@@ -147,9 +162,10 @@ function RankCard({ rank }: { rank: Rank }) {
       style={{
         border: rank.popular ? `1px solid ${rank.color}50` : '1px solid rgba(255,255,255,0.06)',
         boxShadow: rank.popular ? `0 0 30px ${rank.glowColor}` : 'none',
+        marginTop: rank.popular ? '12px' : '0',
       }}>
       {rank.popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold font-orbitron tracking-widest z-10"
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold font-orbitron tracking-widest z-10"
           style={{
             background: `linear-gradient(135deg, ${rank.color}, rgba(147,51,234,0.8))`,
             color: '#fff',
@@ -302,13 +318,13 @@ export default function Rangos() {
             <Crown size={22} style={{ color: '#ffd700' }} />
             <h2 className="section-title font-orbitron text-2xl">Rangos</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ paddingTop: '16px' }}>
             {RANKS.map(rank => <RankCard key={rank.id} rank={rank} />)}
           </div>
         </section>
 
-        {/* Accessories */}
-        <section>
+        {/* Accessories - oculto, no eliminar */}
+        <section className="hidden">
           <div ref={accTitleRef} className="reveal flex items-center gap-3 mb-6">
             <Sparkles size={22} className="text-violet-400" />
             <h2 className="section-title font-orbitron text-2xl">Accesorios</h2>
