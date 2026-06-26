@@ -21,42 +21,44 @@ function DiamondSword({ isOpen, onClick }: { isOpen: boolean; onClick: () => voi
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#A8F5FF" />
-            <stop offset="25%" stop-color="#7AEEFF" />
-            <stop offset="55%" stop-color="#3BC9DA" />
-            <stop offset="100%" stop-color="#1FA8C0" />
-          </linearGradient>
-          <linearGradient id="bladeHighlight" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#B5F5FF" />
-            <stop offset="100%" stop-color="#7AEEFF" />
+            <stop offset="30%" stop-color="#7AEEFF" />
+            <stop offset="60%" stop-color="#3BC9DA" />
+            <stop offset="100%" stop-color="#1FA8C0" />
           </linearGradient>
         </defs>
         <g transform="translate(18,18) rotate(45) translate(-18,-18)">
-          {/* Blade - diamond shaped */}
-          <path d="M14.5 0 L21.5 0 L21.5 4 L19 8 L19 15 L17 15 L17 8 L14.5 4 Z" fill="url(#bladeGrad)" />
-          {/* Blade core highlight */}
-          <path d="M15.5 0.5 L20.5 0.5 L20.5 3.5 L18.5 7 L18.5 14 L17.5 14 L17.5 7 L15.5 3.5 Z" fill="url(#bladeHighlight)" opacity="0.6" />
+          {/* Blade - long and sharp like Minecraft diamond sword */}
+          <path d="M15.5 0 L20.5 0 L20.5 1.5 L21.5 2.5 L21.5 4.5 L19.5 7 L19.5 15 L16.5 15 L16.5 7 L14.5 4.5 L14.5 2.5 L15.5 1.5 Z" fill="url(#bladeGrad)" />
+          {/* Blade left edge highlight */}
+          <path d="M16 0.5 L19 0.5 L19 1.5 L16 1.5 Z" fill="#D5F7FF" opacity="0.8" />
+          {/* Blade center stripe */}
+          <path d="M17.5 1 L17.5 1.5 L18.5 2.5 L18.5 14 L17.5 14 L17.5 2.5 L16.5 1.5 L16.5 1 Z" fill="#B5F5FF" opacity="0.3" />
           {/* Blade tip sparkle */}
-          <path d="M16.5 0.3 L19.5 0.3" stroke="#D5F7FF" stroke-width="1.2" stroke-linecap="round" opacity="0.9" />
+          <path d="M16.5 0.2 L19.5 0.2" stroke="#E5FBFF" stroke-width="1" stroke-linecap="round" opacity="0.95" />
           {/* Guard / Crossguard (empuñadura) */}
-          <rect x="11" y="15" width="14" height="3" rx="0.8" fill="#1A1A2E" />
-          <rect x="11.5" y="15.3" width="13" height="0.6" fill="#3D3D5C" rx="0.3" />
-          <rect x="11.5" y="17" width="13" height="0.5" fill="#0D0D1A" rx="0.3" />
-          {/* Guard gem (diamond) */}
-          <rect x="15.5" y="15.8" width="3" height="1.5" rx="0.3" fill="#7AEEFF" opacity="0.6" />
-          <rect x="16" y="16" width="2" height="1" rx="0.2" fill="#A8F5FF" opacity="0.4" />
+          <rect x="10" y="15" width="16" height="2.5" rx="0.6" fill="#1A1A2E" />
+          <rect x="10.5" y="15.2" width="15" height="0.5" fill="#3D3D5C" rx="0.2" />
+          <rect x="10.5" y="16.8" width="15" height="0.4" fill="#0D0D1A" rx="0.2" />
+          {/* Guard edges (tips of the crossguard) */}
+          <rect x="10" y="14.8" width="2.5" height="2.8" rx="0.4" fill="#2A2A4A" />
+          <rect x="23.5" y="14.8" width="2.5" height="2.8" rx="0.4" fill="#2A2A4A" />
+          {/* Guard center diamond gem */}
+          <rect x="15.5" y="15.5" width="5" height="1.5" rx="0.3" fill="#7AEEFF" opacity="0.5" />
+          <rect x="16" y="15.7" width="4" height="1" rx="0.2" fill="#A8F5FF" opacity="0.3" />
           {/* Handle / Mango */}
-          <rect x="13.5" y="18" width="7" height="5" rx="1.2" fill="#7B5C12" />
-          <rect x="13.5" y="18" width="7" height="5" rx="1.2" fill="url(#bladeGrad)" opacity="0" />
-          {/* Handle wrapping lines */}
-          <rect x="14" y="18.7" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          <rect x="14" y="20.2" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          <rect x="14" y="21.7" width="6" height="0.7" fill="#5E4210" rx="0.3" />
-          {/* Handle highlight */}
-          <rect x="14.5" y="18.3" width="1.5" height="4.5" fill="#C49A28" opacity="0.2" rx="0.5" />
+          <rect x="13" y="17.5" width="10" height="6" rx="1" fill="#7B5C12" />
+          {/* Handle wrapping bands */}
+          <rect x="13.5" y="18" width="9" height="1" fill="#5E4210" rx="0.3" />
+          <rect x="13.5" y="19.5" width="9" height="1" fill="#5E4210" rx="0.3" />
+          <rect x="13.5" y="21" width="9" height="1" fill="#5E4210" rx="0.3" />
+          {/* Handle highlight stripe */}
+          <rect x="14.5" y="17.8" width="2" height="5.5" fill="#C49A28" opacity="0.25" rx="0.5" />
           {/* Pommel */}
-          <rect x="14.5" y="23" width="5" height="2.5" rx="0.8" fill="#1A1A2E" />
-          <rect x="15" y="23.3" width="4" height="0.4" fill="#3D3D5C" rx="0.2" />
+          <rect x="14" y="23.5" width="8" height="2.5" rx="0.7" fill="#1A1A2E" />
+          <rect x="14.5" y="23.7" width="7" height="0.4" fill="#3D3D5C" rx="0.2" />
+          {/* Pommel bottom highlight */}
+          <rect x="15.5" y="25.2" width="5" height="0.4" fill="#0D0D1A" rx="0.2" />
         </g>
       </svg>
     </button>
