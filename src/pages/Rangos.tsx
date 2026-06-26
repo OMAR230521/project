@@ -162,7 +162,6 @@ function RankCard({ rank }: { rank: Rank }) {
       style={{
         border: rank.popular ? `1px solid ${rank.color}50` : '1px solid rgba(255,255,255,0.06)',
         boxShadow: rank.popular ? `0 0 30px ${rank.glowColor}` : 'none',
-        marginTop: rank.popular ? '12px' : '0',
       }}>
       {rank.popular && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold font-orbitron tracking-widest z-10"
