@@ -15,25 +15,25 @@ type Particle = {
   explosionVx: number;
   explosionVy: number;
   attraction: number;
-  isDot?: boolean;
-  dotPhase?: number;
+  isLetter?: boolean;
 };
 
 const PARTICLE_COUNT = 130;
 const COLORS = ['#ffffff', '#ffe29c', '#9d52ff'];
-const DOT_COLOR = '#ffe29c';
+const WORD = 'BolaLand';
 
-// Fase 0: flotación | Fase 1: convergencia | Fase 2: explosión | Fase 3: fade
-const PHASE_DURATIONS = [2800, 2400, 600, 500];
+// Fase 0: flotación + letras aparecen | Fase 1: convergencia | Fase 2: explosión | Fase 3: fade
+const PHASE_DURATIONS = [3200, 1700, 800, 500];
+
+// Cada letra aparece cada N ms durante la fase 0
+const LETTER_INTERVAL = 180;
 
 const easeOutQuad = (t: number) => t * (2 - t);
-const easeInOutQuad = (t: number) =>
-  t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+const easeInQuad  = (t: number) => t * t;
 
 const createParticle = (width: number, height: number): Particle => {
   const angle = Math.random() * Math.PI * 2;
   const speed = 0.003 + Math.random() * 0.006;
-
   const colorChance = Math.random();
   let color = COLORS[0];
   if (colorChance > 0.96) color = COLORS[2];
@@ -49,51 +49,25 @@ const createParticle = (width: number, height: number): Particle => {
     alpha: 0.4 + Math.random() * 0.6,
     explosionVx: 0,
     explosionVy: 0,
-    attraction: 0.00008 + Math.random() * 0.00004,
-  };
-};
-
-const createDot = (index: number, width: number, height: number): Particle => {
-  const spacing = 36;
-  const centerX = width / 2;
-  const centerY = height / 2;
-  const offsetX = (index - 1) * spacing;
-
-  return {
-    x: centerX + offsetX,
-    y: centerY,
-    vx: 0,
-    vy: 0,
-    size: 6,
-    color: DOT_COLOR,
-    alpha: 1,
-    explosionVx: 0,
-    explosionVy: 0,
-    attraction: 0.00018,
-    isDot: true,
-    dotPhase: index * (Math.PI * 2 / 3),
+    attraction: 0.00022 + Math.random() * 0.0001,
   };
 };
 
 export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const particlesRef = useRef<Particle[]>([]);
-  const phaseRef = useRef(0);
-  const startTimeRef = useRef(0);
-  const phaseStartRef = useRef(0);
-  const fadeAlphaRef = useRef(1);
-  const lastTimestampRef = useRef(0);
-  const explosionInitializedRef = useRef(false);
+  const canvasRef       = useRef<HTMLCanvasElement | null>(null);
+  const particlesRef    = useRef<Particle[]>([]);
+  const phaseRef        = useRef(0);
+  const startTimeRef    = useRef(0);
+  const phaseStartRef   = useRef(0);
+  const fadeAlphaRef    = useRef(1);
+  const lastTSRef       = useRef(0);
+  const explodedRef     = useRef(false);
 
-  const [showDots, setShowDots] = useState(true);
-  const [dotIndex, setDotIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDotIndex((prev) => (prev + 1) % 3);
-    }, 450);
-    return () => clearInterval(interval);
-  }, []);
+  // letras visibles en la UI (fase 0)
+  const [visibleLetters, setVisibleLetters] = useState(0);
+  // cuándo empezar a ocultar el texto (al arrancar convergencia)
+  const [textAlpha, setTextAlpha] = useState(1);
+  const [showText, setShowText]   = useState(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -101,134 +75,129 @@ export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const setCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
+    const initParticles = () => {
       const stars = Array.from({ length: PARTICLE_COUNT }, () =>
         createParticle(window.innerWidth, window.innerHeight)
       );
-      const dots = [0, 1, 2].map((i) =>
-        createDot(i, window.innerWidth, window.innerHeight)
-      );
-      particlesRef.current = [...stars, ...dots];
+      particlesRef.current = stars;
+    };
+
+    const setCanvasSize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width  = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initParticles();
     };
 
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
 
-    phaseRef.current = 0;
-    startTimeRef.current = 0;
+    phaseRef.current    = 0;
+    startTimeRef.current  = 0;
     phaseStartRef.current = 0;
-    fadeAlphaRef.current = 1;
-    lastTimestampRef.current = 0;
-    explosionInitializedRef.current = false;
+    fadeAlphaRef.current  = 1;
+    lastTSRef.current     = 0;
+    explodedRef.current   = false;
+
+    // Aparición de letras: una cada LETTER_INTERVAL ms
+    let letterCount = 0;
+    const letterTimer = setInterval(() => {
+      if (phaseRef.current !== 0) { clearInterval(letterTimer); return; }
+      letterCount++;
+      setVisibleLetters(letterCount);
+      if (letterCount >= WORD.length) clearInterval(letterTimer);
+    }, LETTER_INTERVAL);
 
     let rafId: number;
 
     const animate = (timestamp: number) => {
       if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
+        startTimeRef.current  = timestamp;
         phaseStartRef.current = timestamp;
-        lastTimestampRef.current = timestamp;
+        lastTSRef.current     = timestamp;
       }
 
-      const dt = Math.min(timestamp - lastTimestampRef.current, 40);
-      lastTimestampRef.current = timestamp;
+      const dt          = Math.min(timestamp - lastTSRef.current, 40);
+      lastTSRef.current = timestamp;
 
-      const particles = particlesRef.current;
+      const particles   = particlesRef.current;
       const elapsedPhase = timestamp - phaseStartRef.current;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const phase = phaseRef.current;
+      const centerX     = window.innerWidth  / 2;
+      const centerY     = window.innerHeight / 2;
+      const phase       = phaseRef.current;
 
-      // ── FASE 0: flotación libre, dots HTML visibles ───────────────────────
+      // ── FASE 0: estrellas flotan, letras van apareciendo ─────────────────
       if (phase === 0) {
         particles.forEach((p) => {
-          if (p.isDot) return;
           p.x += p.vx * dt;
           p.y += p.vy * dt;
-          if (p.x <= 0 || p.x >= window.innerWidth) p.vx *= -1;
-          if (p.y <= 0 || p.y >= window.innerHeight) p.vy *= -1;
+          if (p.x <= 0 || p.x >= window.innerWidth)  p.vx *= -1;
+          if (p.y <= 0 || p.y >= window.innerHeight)  p.vy *= -1;
         });
 
         if (elapsedPhase >= PHASE_DURATIONS[0]) {
-          // Sincronizar posición de dots al centro antes de convergencia
-          particlesRef.current.forEach((p, i) => {
-            if (!p.isDot) return;
-            const dotI = i - PARTICLE_COUNT;
-            const spacing = 36;
-            p.x = centerX + (dotI - 1) * spacing;
-            p.y = centerY;
-            p.vx = 0;
-            p.vy = 0;
-          });
-          setShowDots(false);
-          phaseRef.current = 1;
+          clearInterval(letterTimer);
+          // Fade out del texto HTML en 300ms mientras empieza la convergencia
+          setTextAlpha(0);
+          setTimeout(() => setShowText(false), 350);
+          phaseRef.current    = 1;
           phaseStartRef.current = timestamp;
         }
 
-      // ── FASE 1: convergencia lenta y fluida ──────────────────────────────
+      // ── FASE 1: convergencia acelerada ────────────────────────────────────
       } else if (phase === 1) {
         const duration = PHASE_DURATIONS[1];
-        const t = easeInOutQuad(Math.min(elapsedPhase / duration, 1));
+        const t = easeInQuad(Math.min(elapsedPhase / duration, 1));
 
         particles.forEach((p) => {
           const dx = centerX - p.x;
           const dy = centerY - p.y;
-          const distance = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
-          const attraction = p.attraction * (1 + t * 2.5);
-          p.vx += (dx / distance) * attraction * dt;
-          p.vy += (dy / distance) * attraction * dt;
-          p.vx *= 0.97;
-          p.vy *= 0.97;
-          p.x += p.vx * dt;
-          p.y += p.vy * dt;
-
-          if (p.isDot) {
-            p.alpha = 1;
-            p.size = 6 * (1 - t * 0.3);
-          } else {
-            p.alpha = Math.max(0.15, 1 - t * 0.35);
-          }
+          const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
+          const attraction = p.attraction * (1 + t * 8);
+          p.vx += (dx / dist) * attraction * dt;
+          p.vy += (dy / dist) * attraction * dt;
+          p.vx *= 0.985;
+          p.vy *= 0.985;
+          p.x  += p.vx * dt;
+          p.y  += p.vy * dt;
+          p.alpha = Math.max(0.1, 1 - t * 0.4);
         });
 
         if (elapsedPhase >= duration) {
-          phaseRef.current = 2;
+          phaseRef.current    = 2;
           phaseStartRef.current = timestamp;
         }
 
       // ── FASE 2: EXPLOSIÓN ────────────────────────────────────────────────
       } else if (phase === 2) {
-        if (!explosionInitializedRef.current) {
-          explosionInitializedRef.current = true;
+        if (!explodedRef.current) {
+          explodedRef.current = true;
           particles.forEach((p) => {
             const angle = Math.random() * Math.PI * 2;
-            const speed = p.isDot
-              ? 1.2 + Math.random() * 0.8
-              : 0.6 + Math.random() * 0.9;
+            const speed = 2.0 + Math.random() * 2.5;
             p.explosionVx = Math.cos(angle) * speed;
             p.explosionVy = Math.sin(angle) * speed;
-            p.x = centerX;
-            p.y = centerY;
+            p.x     = centerX;
+            p.y     = centerY;
             p.alpha = 1;
-            if (p.isDot) p.size = 7;
           });
         }
 
         const duration = PHASE_DURATIONS[2];
+        const t = Math.min(elapsedPhase / duration, 1);
+        const speedFactor = Math.pow(1 - t, 0.4);
+
         particles.forEach((p) => {
-          p.x += p.explosionVx * dt * 0.6;
-          p.y += p.explosionVy * dt * 0.6;
-          p.alpha = Math.max(0, 1 - elapsedPhase / duration);
+          p.x    += p.explosionVx * dt * speedFactor;
+          p.y    += p.explosionVy * dt * speedFactor;
+          p.alpha = Math.max(0, 1 - t * 1.2);
         });
 
         if (elapsedPhase >= duration) {
-          phaseRef.current = 3;
+          phaseRef.current    = 3;
           phaseStartRef.current = timestamp;
         }
 
@@ -252,25 +221,16 @@ export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
       particles.forEach((p) => {
-        if (phase === 0 && p.isDot) return;
-
         ctx.beginPath();
         ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha));
-
-        if (p.isDot) {
-          ctx.shadowColor = '#ffe29c';
-          ctx.shadowBlur = 16;
-        } else {
-          ctx.shadowBlur = 0;
-        }
-
-        ctx.fillStyle = p.color;
+        ctx.shadowBlur  = 0;
+        ctx.fillStyle   = p.color;
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       });
 
       ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
+      ctx.shadowBlur  = 0;
 
       if (phase === 3) {
         ctx.fillStyle = `rgba(6, 6, 16, ${1 - fadeAlphaRef.current})`;
@@ -283,12 +243,13 @@ export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
     rafId = requestAnimationFrame(animate);
 
     return () => {
+      clearInterval(letterTimer);
       window.removeEventListener('resize', setCanvasSize);
       cancelAnimationFrame(rafId);
     };
   }, [onFinish]);
 
-  const dots = [0, 1, 2];
+  const letters = WORD.split('');
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#060610]">
@@ -298,23 +259,37 @@ export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
         aria-hidden="true"
       />
 
-      {showDots && (
-        <div className="relative z-10 flex items-center gap-[20px]">
-          {dots.map((i) => (
+      {/* Texto BolaLand letra por letra */}
+      {showText && (
+        <div
+          className="relative z-10 flex items-center select-none"
+          style={{
+            opacity: textAlpha,
+            transition: 'opacity 0.35s ease',
+          }}
+        >
+          {letters.map((char, i) => (
             <span
               key={i}
               style={{
                 display: 'inline-block',
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                background: DOT_COLOR,
-                opacity: dotIndex === i ? 1 : 0.28,
-                boxShadow:
-                  dotIndex === i ? '0 0 10px 3px #ffe29c88' : 'none',
-                transition: 'opacity 0.35s ease, box-shadow 0.35s ease',
+                fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                fontWeight: 700,
+                fontFamily: "'Segoe UI', system-ui, sans-serif",
+                letterSpacing: '0.04em',
+                // Bola → dorado, Land → blanco/violeta suave
+                color: i < 4 ? '#ffe29c' : '#e8e0ff',
+                textShadow:
+                  i < 4
+                    ? '0 0 18px #ffe29c99, 0 0 40px #ffe29c44'
+                    : '0 0 18px #9d52ff66, 0 0 40px #9d52ff22',
+                opacity: i < visibleLetters ? 1 : 0,
+                transform: i < visibleLetters ? 'translateY(0)' : 'translateY(12px)',
+                transition: 'opacity 0.35s ease, transform 0.35s ease',
               }}
-            />
+            >
+              {char}
+            </span>
           ))}
         </div>
       )}
