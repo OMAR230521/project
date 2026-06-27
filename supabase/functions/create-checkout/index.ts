@@ -33,7 +33,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const supabase = createClient("https://qlsmrviqbvqpgcuqondr.supabase.co", serviceRoleKey);
+    const supabase = createClient("https://mkgspobqmvekpuvfluxi.supabase.co", serviceRoleKey);
 
     const body = await req.json();
     const { items, minecraft_nick, payment_method } = body;

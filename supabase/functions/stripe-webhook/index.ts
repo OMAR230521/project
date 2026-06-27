@@ -36,7 +36,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const supabase = createClient("https://qlsmrviqbvqpgcuqondr.supabase.co", serviceRoleKey);
+    const supabase = createClient("https://mkgspobqmvekpuvfluxi.supabase.co", serviceRoleKey);
 
     const body = await req.text();
     const signature = req.headers.get("stripe-signature");
