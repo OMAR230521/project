@@ -18,8 +18,8 @@ interface Rank {
 const RANKS: Rank[] = [
   {
     id: 'rank-aventurero',
-    name: 'Aventurero',
-    price: 4.99,
+    name: 'Humildad',
+    price: 2.99,
     color: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: Shield,
@@ -28,7 +28,7 @@ const RANKS: Rank[] = [
       'Prefijo [Aventurero] verde',
       'Kit de bienvenida',
       'Acceso a /fly en lobby',
-      '3 homes adicionales',
+      '3 cachondas rikas',
       'Color en el chat',
       'Prioridad de cola',
     ],
