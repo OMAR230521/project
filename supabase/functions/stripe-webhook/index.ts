@@ -1,3 +1,4 @@
+// @ts-ignore
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Stripe from "npm:stripe@14.21.0";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -5,8 +6,14 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey, stripe-signature",
 };
+
+// Disable JWT verification for Stripe webhooks
+export const config = {
+  path: "/stripe-webhook",
+  auth: false,
+}
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
