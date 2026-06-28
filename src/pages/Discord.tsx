@@ -27,8 +27,8 @@ function ChannelCard({ icon: Icon, name, desc, color }: { icon: typeof Users; na
 }
 
 const DISCORD_STATS = [
-  { value: '2,500+', label: 'Miembros' },
-  { value: '500+', label: 'Online ahora' },
+  { value: '500+', label: 'Miembros' },
+  { value: '50+', label: 'Online ahora' },
   { value: '24/7', label: 'Soporte' },
 ];
 
@@ -67,7 +67,7 @@ export default function Discord() {
             Únete al Discord
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto mb-8">
-            Nuestra comunidad te espera. Conecta con miles de jugadores, recibe soporte y participa en eventos exclusivos.
+            Nuestra comunidad te espera. Conecta con cientos de jugadores, recibe soporte y enterate  de eventos exclusivos.
           </p>
 
           <a
@@ -117,7 +117,6 @@ export default function Discord() {
             {[
               { icon: '🎉', label: 'Eventos exclusivos' },
               { icon: '🛡️', label: 'Staff siempre disponible' },
-              { icon: '🎁', label: 'Sorteos frecuentes' },
               { icon: '📢', label: 'Noticias del servidor' },
               { icon: '🏆', label: 'Torneos con premios' },
               { icon: '💬', label: 'Comunidad hispanohablante' },

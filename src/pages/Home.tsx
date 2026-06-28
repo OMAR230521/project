@@ -84,12 +84,12 @@ function CtaBanner() {
 }
 
 const FEATURES = [
-  { icon: Users, title: 'Comunidad Activa', desc: 'Miles de jugadores de habla hispana que comparten tu pasión por el survival con mods. Eventos semanales y torneos regulares.', color: '#9333ea' },
-  { icon: Package, title: 'Sistema de Mods', desc: 'Más de 50 mods cuidadosamente seleccionados para ofrecer una experiencia equilibrada y épica sin sacrificar el rendimiento.', color: '#f0b429' },
+  { icon: Users, title: 'Comunidad Activa', desc: 'Cientos de jugadores de habla hispana que comparten tu pasión por el survival con mods. Eventos semanales y torneos regulares.', color: '#9333ea' },
+  { icon: Package, title: 'Sistema de Mods', desc: 'Más de 200 mods cuidadosamente seleccionados para ofrecer una experiencia equilibrada y épica sin sacrificar el rendimiento.', color: '#f0b429' },
   { icon: Zap, title: 'Eventos Épicos', desc: 'Competencias, hunts y eventos de temporada con recompensas exclusivas. Siempre algo nuevo que descubrir.', color: '#10b981' },
   { icon: Globe, title: 'Optimización Total', desc: 'Servidor de alto rendimiento con configuración optimizada para que tu experiencia sea fluida independientemente de tu PC.', color: '#3b82f6' },
   { icon: Sword, title: 'Experiencia Inmersiva', desc: 'Mundos personalizados, biomas únicos y narrativa épica que te sumergirá en horas de exploración y aventura.', color: '#ec4899' },
-  { icon: Star, title: 'Rangos Premium', desc: 'Sistema de rangos exclusivos con beneficios únicos, partículas especiales, mascotas y cosméticos de alto nivel.', color: '#c96bff' },
+  { icon: Star, title: 'Rangos Premium', desc: 'Sistema de rangos exclusivos con beneficios únicos!.', color: '#c96bff' },
 ];
 
 export default function Home() {
@@ -124,7 +124,7 @@ export default function Home() {
               color: '#86efac',
             }}>
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            Servidor Online — play.bolaland.net
+            Servidor Online — bolaland.net
           </div>
 
           <div className="mb-6">
@@ -171,7 +171,7 @@ export default function Home() {
       <section className="py-16 px-4 relative">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard value="500+" label="Jugadores activos" icon={Users} />
-          <StatCard value="50+" label="Mods instalados" icon={Package} />
+          <StatCard value="200+" label="Mods instalados" icon={Package} />
           <StatCard value="99.9%" label="Uptime garantizado" icon={Server} />
           <StatCard value="24/7" label="Soporte activo" icon={Zap} />
         </div>

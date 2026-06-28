@@ -118,7 +118,7 @@ export default function Modpack() {
             Modpack BolaLand
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto mb-8">
-            Más de 50 mods seleccionados para una experiencia épica. Instalación guiada y soporte completo.
+            Más de 200 mods seleccionados para una experiencia épica. Instalación guiada y soporte completo.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
