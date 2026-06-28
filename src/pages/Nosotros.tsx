@@ -2,10 +2,8 @@ import { Users, Heart, Globe, Shield, Zap, Star, Target } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 
 const TEAM = [
-  { name: 'BolaMaster', role: 'Fundador & Owner', emoji: '👑', desc: 'Visionario del proyecto, gestiona la infraestructura y dirección del servidor.' },
-  { name: 'StarDev', role: 'Lead Developer', emoji: '⚡', desc: 'Arquitecto técnico, responsable de los sistemas y plugins del servidor.' },
-  { name: 'CosmicMod', role: 'Admin & Moderador', emoji: '🌟', desc: 'Mantiene el orden y la experiencia de los jugadores. Siempre disponible.' },
-  { name: 'PixelBuilder', role: 'Builder & Designer', emoji: '🏗️', desc: 'Crea los mundos épicos y estructuras únicas que hacen especial a BolaLand.' },
+  { name: 'TheBola', role: 'Fundador', emoji: '👑', desc: 'Visionario del proyecto, gestiona la infraestructura y dirección del servidor.' },
+  { name: ' El Staff', role: 'Amigos del Alma', emoji: '⚡', desc: 'Personas dedicadas al servidor, para la ayuda de los jugadores dentro del server.' },
 ];
 
 const VALUES = [
@@ -16,9 +14,9 @@ const VALUES = [
 ];
 
 const STORY_STATS = [
-  { value: '2021', label: 'Fundado' },
-  { value: '2,500+', label: 'Miembros' },
-  { value: '50+', label: 'Mods' },
+  { value: '2026', label: 'Fundado' },
+  { value: '500+', label: 'Miembros' },
+  { value: '200+', label: 'Mods' },
   { value: '4', label: 'Staff activo' },
 ];
 
@@ -98,7 +96,7 @@ export default function Nosotros() {
                 <h2 className="section-title font-orbitron text-2xl sm:text-3xl mb-4">Nuestra historia</h2>
                 <div className="space-y-3 text-gray-300 text-sm leading-relaxed">
                   <p>BolaLand comenzó como un pequeño proyecto entre amigos que querían un lugar especial donde disfrutar Minecraft con mods sin las limitaciones de los servidores públicos.</p>
-                  <p>Lo que empezó con 5 jugadores creció hasta convertirse en una comunidad de más de 2,500 miembros activos. Hoy somos un referente en el mundo de los servidores hispanohablantes con mods.</p>
+                  <p>Lo que empezó con 5 jugadores creció hasta convertirse en una comunidad de más de 500 miembros activos. Hoy somos un referente en el mundo de los servidores hispanohablantes con mods.</p>
                   <p>Nuestra misión es simple: crear el mejor lugar posible para jugar Minecraft con mods, donde cada jugador se sienta bienvenido y pueda vivir aventuras épicas.</p>
                 </div>
               </div>
@@ -152,7 +150,7 @@ export default function Nosotros() {
           <div className="mt-6 flex justify-center relative z-10">
             <div className="flex items-center gap-2 text-sm text-violet-400">
               <Star size={14} style={{ fill: '#c96bff' }} />
-              <span className="font-medium">Desde 2021, construyendo aventuras juntos</span>
+              <span className="font-medium">Desde 2026, construyendo aventuras juntos</span>
               <Star size={14} style={{ fill: '#c96bff' }} />
             </div>
           </div>

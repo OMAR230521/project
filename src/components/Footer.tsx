@@ -58,7 +58,7 @@ export default function Footer() {
             ))}
           </nav>
 
-          {/* Social icons */}
+          {/* Icono de Discord */}
           <div className="flex items-center gap-3">
             <a
               href="https://discord.gg/3kDC2ZbnA"
@@ -69,15 +69,7 @@ export default function Footer() {
             >
               <MessageCircle size={18} />
             </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-xl glass-light flex items-center justify-center text-gray-400 hover:text-violet-300 transition-all duration-200 hover:border-violet-500/40"
-              aria-label="GitHub"
-            >
-              <Github size={18} />
-            </a>
+
           </div>
         </div>
 
