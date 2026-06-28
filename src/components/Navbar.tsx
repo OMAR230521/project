@@ -18,7 +18,7 @@ function DiamondSword({ isOpen, onClick }: { isOpen: boolean; onClick: () => voi
       className={`diamond-sword p-1 ${isOpen ? 'active' : ''}`}
       aria-label="Abrir menú"
     >
-      <svg width="32" height="32" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="34" height="34" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Diamond sword pixel art */}
         <rect x="2" y="1" width="2" height="2" fill="#5CE8F5" />
         <rect x="4" y="1" width="2" height="2" fill="#7AEEFF" />
@@ -32,11 +32,24 @@ function DiamondSword({ isOpen, onClick }: { isOpen: boolean; onClick: () => voi
         <rect x="6" y="7" width="2" height="2" fill="#3BC9DA" />
         <rect x="10" y="7" width="2" height="2" fill="#5CE8F5" />
         <rect x="10" y="9" width="2" height="2" fill="#3BC9DA" />
+        <rect x="8" y="9" width="2" height="2" fill="#3BC9DA" />
         {/* Handle */}
         <rect x="9" y="11" width="2" height="2" fill="#8B6914" />
         <rect x="7" y="11" width="2" height="2" fill="#C49A28" />
         <rect x="7" y="13" width="2" height="2" fill="#8B6914" />
         <rect x="9" y="13" width="2" height="2" fill="#C49A28" />
+        <rect x="11" y="11" width="2" height="2" fill="#8B6914" />
+        <rect x="12" y="11" width="2" height="2" fill="#C49A28" />
+        <rect x="11" y="13" width="2" height="2" fill="#8B6914" />
+        <rect x="12" y="9" width="2" height="2" fill="#C49A28" />
+        <rect x="14" y="8" width="2" height="2" fill="#8B6914" />
+        <rect x="14" y="10" width="2" height="2" fill="#C49A28" />
+        <rect x="13" y="13" width="2" height="2" fill="#8B6914" />
+        <rect x="13" y="15" width="2" height="2" fill="#C49A28" />
+        <rect x="15" y="17" width="2" height="2" fill="#3BC9DA" />
+        <rect x="15" y="15" width="2" height="2" fill="#C49A28" />
+        <rect x="16" y="17" width="2" height="2" fill="#3BC9DA" />
+        <rect x="16" y="16" width="2" height="2" fill="#3BC9DA" />
       </svg>
     </button>
   );
