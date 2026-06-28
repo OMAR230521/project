@@ -27,8 +27,8 @@ function ChannelCard({ icon: Icon, name, desc, color }: { icon: typeof Users; na
 }
 
 const DISCORD_STATS = [
-  { value: '500+', label: 'Miembros' },
-  { value: '50+', label: 'Online ahora' },
+  { value: '200+', label: 'Miembros' },
+  { value: '50+', label: 'Online' },
   { value: '24/7', label: 'Soporte' },
 ];
 
@@ -67,7 +67,7 @@ export default function Discord() {
             Únete al Discord
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto mb-8">
-            Nuestra comunidad te espera. Conecta con cientos de jugadores, recibe soporte y enterate  de eventos exclusivos.
+            Nuestra comunidad te espera. Conecta con jugadores Hispanohablantes, recibe soporte y enterate  de eventos exclusivos.
           </p>
 
           <a

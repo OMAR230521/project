@@ -107,18 +107,13 @@ interface Accessory {
 }
 
 const ACCESSORIES: Accessory[] = [
-  { id: 'acc-particulas-fuego', name: 'Partículas de Fuego', price: 2.99, category: 'Partículas', desc: 'Efecto de llamas a tu alrededor', icon: '🔥' },
-  { id: 'acc-particulas-hielo', name: 'Partículas de Hielo', price: 2.99, category: 'Partículas', desc: 'Cristales de hielo flotantes', icon: '❄️' },
-  { id: 'acc-particulas-galaxia', name: 'Partículas Galaxia', price: 4.99, category: 'Partículas', desc: 'Estrellas y nebulosas cósmicas', icon: '✨' },
-  { id: 'acc-mascota-dragon', name: 'Mascota Dragón', price: 7.99, category: 'Mascotas', desc: 'Un dragón bebé te acompaña', icon: '🐉' },
-  { id: 'acc-mascota-lobo', name: 'Mascota Lobo Cósmico', price: 5.99, category: 'Mascotas', desc: 'Lobo con aura estelar', icon: '🐺' },
-  { id: 'acc-titulo-heroe', name: 'Título: Héroe', price: 1.99, category: 'Títulos', desc: 'Mostrar "Héroe" sobre tu cabeza', icon: '🏆' },
-  { id: 'acc-titulo-guardian', name: 'Título: Guardián', price: 1.99, category: 'Títulos', desc: 'Mostrar "Guardián" sobre tu cabeza', icon: '🛡️' },
-  { id: 'acc-cosmetic-wings', name: 'Alas de Angel', price: 6.99, category: 'Cosméticos', desc: 'Alas decorativas blancas', icon: '👼' },
-  { id: 'acc-efecto-rainbow', name: 'Efecto Arcoíris', price: 3.99, category: 'Efectos', desc: 'Colores de arcoíris en tu nombre', icon: '🌈' },
+  { id: 'acc-particulas-fuego', name: 'Chunk ', price: 2.99, category: 'Extención de Chunks', desc: '20 Chunks', icon: ' 🏠' },
+  { id: 'acc-particulas-hielo', name: 'Chunk', price: 6.99, category: 'Extención de Chunks', desc: '50 Chunks', icon: ' 🏠' },
+  { id: 'acc-particulas-galaxia', name: 'Chunks', price: 9.99, category: 'Extención de Chunks', desc: '100 Chunks', icon: ' 🏠' },
+  
 ];
 
-const ACC_CATEGORIES = ['Todos', 'Partículas', 'Mascotas', 'Títulos', 'Cosméticos', 'Efectos'];
+const ACC_CATEGORIES = ['Extención de Chunks'];
 
 const INFO_ITEMS = [
   { icon: Shield, label: 'Pago seguro', desc: 'Transacciones protegidas con SSL', color: '#10b981' },
@@ -267,14 +262,12 @@ function InfoCard({ item }: { item: typeof INFO_ITEMS[0] }) {
 }
 
 export default function Rangos() {
-  const [activeCategory, setActiveCategory] = useState('Todos');
+  const [activeCategory, setActiveCategory] = useState('Extención de Chunks');
   const heroRef = useReveal();
   const ranksTitleRef = useReveal();
   const accTitleRef = useReveal();
 
-  const filteredAcc = activeCategory === 'Todos'
-    ? ACCESSORIES
-    : ACCESSORIES.filter(a => a.category === activeCategory);
+  const filteredAcc = ACCESSORIES.filter(a => a.category === activeCategory);
 
   return (
     <div className="pt-24 pb-20 px-4">
@@ -309,28 +302,13 @@ export default function Rangos() {
         </section>
 
         {/* Accessories - oculto, no eliminar */}
-        <section className="hidden">
+        <section className="">
           <div ref={accTitleRef} className="reveal flex items-center gap-3 mb-6">
             <Sparkles size={22} className="text-violet-400" />
-            <h2 className="section-title font-orbitron text-2xl">Accesorios</h2>
+            <h2 className="section-title font-orbitron text-2xl">Extención de Chunks</h2>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
-            {ACC_CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="px-4 py-2 rounded-xl text-xs font-medium transition-all duration-200"
-                style={
-                  activeCategory === cat
-                    ? { background: 'rgba(147, 51, 234, 0.25)', border: '1px solid rgba(179, 71, 255, 0.45)', color: '#c96bff' }
-                    : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: '#9ca3af' }
-                }
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {filteredAcc.map(acc => <AccessoryCard key={acc.id} acc={acc} />)}

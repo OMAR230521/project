@@ -67,7 +67,7 @@ function CtaBanner() {
         Únete a la aventura
       </h2>
       <p className="text-gray-300 max-w-md mx-auto mb-8 relative z-10">
-        Conecta al servidor ahora mismo y descubre por qué miles de jugadores eligen BolaLand.
+        Conecta al servidor ahora mismo y descubre por qué los jugadores eligen BolaLand.
       </p>
       <div className="flex flex-wrap justify-center gap-4 relative z-10">
         <Link to="/discord" className="btn-primary px-8 py-3.5 rounded-2xl">
@@ -170,7 +170,7 @@ export default function Home() {
       {/* Stats section */}
       <section className="py-16 px-4 relative">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard value="500+" label="Jugadores activos" icon={Users} />
+          <StatCard value="500+" label="Jugadores" icon={Users} />
           <StatCard value="200+" label="Mods instalados" icon={Package} />
           <StatCard value="99.9%" label="Uptime garantizado" icon={Server} />
           <StatCard value="24/7" label="Soporte activo" icon={Zap} />
