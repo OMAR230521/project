@@ -15,7 +15,7 @@ const VALUES = [
 
 const STORY_STATS = [
   { value: '2026', label: 'Fundado' },
-  { value: '500+', label: 'Miembros' },
+  { value: '100+', label: 'Miembros' },
   { value: '200+', label: 'Mods' },
   { value: '4', label: 'Staff activo' },
 ];
