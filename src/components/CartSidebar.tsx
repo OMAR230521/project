@@ -30,7 +30,7 @@ export default function CartSidebar() {
     try {
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
-          items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, category: i.category })),
+          items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, category: i.category, server: i.server })),
           minecraft_nick: nick.trim(),
           payment_method: method,
         },
@@ -110,6 +110,16 @@ export default function CartSidebar() {
                         )}
                         <p className="text-sm font-medium text-white truncate">{item.name}</p>
                         <p className="text-xs text-gray-400">{item.category}</p>
+                        {item.server && (
+                          <span className="text-xs px-1.5 py-0.5 rounded font-medium mt-1 inline-block"
+                            style={{
+                              background: item.server === 'Vanilla' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(147, 51, 234, 0.15)',
+                              color: item.server === 'Vanilla' ? '#86efac' : '#c96bff',
+                              border: item.server === 'Vanilla' ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(179, 71, 255, 0.3)',
+                            }}>
+                            {item.server === 'Vanilla' ? '🌿 Vanilla' : '⚡ Mods'}
+                          </span>
+                        )}
                         <p className="text-sm font-bold mt-1 text-gradient-gold"
                           style={{
                             background: 'linear-gradient(135deg, #ffe44d, #f0b429)',
@@ -199,21 +209,7 @@ export default function CartSidebar() {
                   }}
                 >
                   {loading ? <Loader2 size={16} className="animate-spin" /> : null}
-                  Pagar con Stripe
-                </button>
-                <button
-                  onClick={() => handleCheckout('paypal')}
-                  disabled={loading}
-                  className="w-full py-3.5 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50"
-                  style={{
-                    background: 'linear-gradient(135deg, #003087 0%, #009cde 100%)',
-                    boxShadow: '0 4px 20px rgba(0, 156, 222, 0.25)',
-                    color: '#fff',
-                    border: '1px solid rgba(0, 156, 222, 0.3)',
-                  }}
-                >
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : null}
-                  Pagar con PayPal
+                  Pagar con Tarjeta Débito/Crédito
                 </button>
               </div>
 

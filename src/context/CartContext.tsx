@@ -7,6 +7,7 @@ export interface CartItem {
   quantity: number;
   category: string;
   badge?: string;
+  server?: string;
 }
 
 interface CartState {

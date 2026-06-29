@@ -38,6 +38,8 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const { items, minecraft_nick, payment_method } = body;
 
+    console.log("create-checkout - body recibido:", JSON.stringify({ items, minecraft_nick, payment_method }));
+
     if (!minecraft_nick || !/^[a-zA-Z0-9_]{3,16}$/.test(minecraft_nick)) {
       return new Response(
         JSON.stringify({ error: "NickName de Minecraft inválido." }),
@@ -51,6 +53,12 @@ Deno.serve(async (req: Request) => {
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Detectar servidor desde los items (después de validar que items existe)
+    const server = items.some((i: { server?: string }) => i.server === 'vanilla' || i.server === 'Vanilla')
+      ? 'vanilla'
+      : 'mods';
+    console.log("create-checkout - server detectado:", server);
 
     const total = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
 
@@ -84,6 +92,8 @@ Deno.serve(async (req: Request) => {
       quantity: item.quantity,
     }));
 
+    console.log("create-checkout - creando sesión Stripe con metadata:", JSON.stringify({ order_id: order.id, minecraft_nick: minecraft_nick.trim(), server }));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -93,6 +103,7 @@ Deno.serve(async (req: Request) => {
       metadata: {
         order_id: order.id,
         minecraft_nick: minecraft_nick.trim(),
+        server,
       },
       custom_text: {
         submit: {
@@ -100,6 +111,8 @@ Deno.serve(async (req: Request) => {
         },
       },
     });
+
+    console.log("create-checkout - sesión creada:", session.id);
 
     await supabase
       .from("orders")

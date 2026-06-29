@@ -1,65 +1,40 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ShoppingCart, X } from 'lucide-react';
+import { ShoppingCart, X, Menu } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
-const NAV_LINKS = [
-  { label: 'Inicio', path: '/' },
-  { label: 'Discord', path: '/discord' },
+const NAV_LINKS_MODS = [
+  { label: 'Inicio', path: '/mods' },
+  { label: 'Discord', path: '/mods/discord' },
   { label: 'Modpack', path: '/modpack' },
-  { label: 'Rangos', path: '/rangos' },
-  { label: 'Nosotros', path: '/nosotros' },
+  { label: 'Rangos', path: '/mods/ranks' },
+  { label: 'Nosotros', path: '/mods/about' },
 ];
 
-function DiamondSword({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`diamond-sword p-1 ${isOpen ? 'active' : ''}`}
-      aria-label="Abrir menú"
-    >
-      <svg width="34" height="34" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Diamond sword pixel art */}
-        <rect x="2" y="1" width="2" height="2" fill="#5CE8F5" />
-        <rect x="4" y="1" width="2" height="2" fill="#7AEEFF" />
-        <rect x="4" y="3" width="2" height="2" fill="#5CE8F5" />
-        <rect x="2" y="3" width="2" height="2" fill="#3BC9DA" />
-        <rect x="6" y="3" width="2" height="2" fill="#7AEEFF" />
-        <rect x="6" y="5" width="2" height="2" fill="#5CE8F5" />
-        <rect x="4" y="5" width="2" height="2" fill="#3BC9DA" />
-        <rect x="8" y="5" width="2" height="2" fill="#7AEEFF" />
-        <rect x="8" y="7" width="2" height="2" fill="#5CE8F5" />
-        <rect x="6" y="7" width="2" height="2" fill="#3BC9DA" />
-        <rect x="10" y="7" width="2" height="2" fill="#5CE8F5" />
-        <rect x="10" y="9" width="2" height="2" fill="#3BC9DA" />
-        <rect x="8" y="9" width="2" height="2" fill="#3BC9DA" />
-        {/* Handle */}
-        <rect x="9" y="11" width="2" height="2" fill="#8B6914" />
-        <rect x="7" y="11" width="2" height="2" fill="#C49A28" />
-        <rect x="7" y="13" width="2" height="2" fill="#8B6914" />
-        <rect x="9" y="13" width="2" height="2" fill="#C49A28" />
-        <rect x="11" y="11" width="2" height="2" fill="#8B6914" />
-        <rect x="12" y="11" width="2" height="2" fill="#C49A28" />
-        <rect x="11" y="13" width="2" height="2" fill="#8B6914" />
-        <rect x="12" y="9" width="2" height="2" fill="#C49A28" />
-        <rect x="14" y="8" width="2" height="2" fill="#8B6914" />
-        <rect x="14" y="10" width="2" height="2" fill="#C49A28" />
-        <rect x="13" y="13" width="2" height="2" fill="#8B6914" />
-        <rect x="13" y="15" width="2" height="2" fill="#C49A28" />
-        <rect x="15" y="17" width="2" height="2" fill="#3BC9DA" />
-        <rect x="15" y="15" width="2" height="2" fill="#C49A28" />
-        <rect x="16" y="17" width="2" height="2" fill="#3BC9DA" />
-        <rect x="16" y="16" width="2" height="2" fill="#3BC9DA" />
-      </svg>
-    </button>
-  );
-}
+const NAV_LINKS_VANILLA = [
+  { label: 'Inicio', path: '/vanilla' },
+  { label: 'Discord', path: '/vanilla/discord' },
+  { label: 'Rangos', path: '/vanilla/ranks' },
+  { label: 'Nosotros', path: '/vanilla/about' },
+];
+
+const NAV_LINKS_DEFAULT = [
+  { label: 'Servidores', path: '/' },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { totalItems, toggleCart } = useCart();
+
+  const NAV_LINKS = location.pathname.startsWith('/vanilla')
+    ? NAV_LINKS_VANILLA
+    : location.pathname.startsWith('/mods')
+      ? NAV_LINKS_MODS
+      : location.pathname === '/'
+        ? NAV_LINKS_DEFAULT
+        : NAV_LINKS_MODS;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -153,9 +128,15 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Mobile sword */}
+              {/* Mobile hamburger */}
               <div className="md:hidden">
-                <DiamondSword isOpen={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)} />
+                <button
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+                  aria-label="Abrir menú"
+                >
+                  <Menu size={24} />
+                </button>
               </div>
             </div>
           </div>

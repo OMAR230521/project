@@ -17,7 +17,7 @@ interface Rank {
 
 const RANKS: Rank[] = [
   {
-    id: 'rank-aventurero',
+    id: 'v-rank-aventurero',
     name: 'Humildad',
     price: 2.99,
     color: '#10b981',
@@ -33,7 +33,7 @@ const RANKS: Rank[] = [
     ],
   },
   {
-    id: 'rank-guerrero',
+    id: 'v-rank-guerrero',
     name: 'te la comes toda lo se',
     price: 5.99,
     color: '#3b82f6',
@@ -48,24 +48,24 @@ const RANKS: Rank[] = [
     ],
   },
   {
-    id: 'rank-legendario',
+    id: 'v-rank-legendario',
     name: 'Legendario',
     price: 19.99,
-    color: '#c96bff',
-    glowColor: 'rgba(201, 107, 255, 0.4)',
+    color: '#22c55e',
+    glowColor: 'rgba(34, 197, 94, 0.4)',
     icon: Star,
     badge: 'LEGENDARIO',
     popular: true,
     benefits: [
       'Todo lo de Guerrero',
-      'Prefijo [Legendario] violeta',
+      'Prefijo [Legendario] verde',
       'Partículas épicas',
       'Mascota legendaria',
       'Título personalizable',
     ],
   },
   {
-    id: 'rank-supremo',
+    id: 'v-rank-supremo',
     name: 'Supremo',
     price: 34.99,
     color: '#ffd700',
@@ -81,7 +81,7 @@ const RANKS: Rank[] = [
     ],
   },
   {
-    id: 'rank-eterno',
+    id: 'v-rank-eterno',
     name: 'Eterno',
     price: 49.99,
     color: '#ff4444',
@@ -107,10 +107,9 @@ interface Accessory {
 }
 
 const ACCESSORIES: Accessory[] = [
-  { id: 'acc-particulas-fuego', name: 'Chunk ', price: 2.99, category: 'Extención de Chunks', desc: '20 Chunks', icon: ' 🏠' },
-  { id: 'acc-particulas-hielo', name: 'Chunk', price: 6.99, category: 'Extención de Chunks', desc: '50 Chunks', icon: ' 🏠' },
-  { id: 'acc-particulas-galaxia', name: 'Chunks', price: 9.99, category: 'Extención de Chunks', desc: '100 Chunks', icon: ' 🏠' },
-  
+  { id: 'v-acc-particulas-fuego', name: 'Chunk ', price: 2.99, category: 'Extención de Chunks', desc: '20 Chunks', icon: ' 🏠' },
+  { id: 'v-acc-particulas-hielo', name: 'Chunk', price: 6.99, category: 'Extención de Chunks', desc: '50 Chunks', icon: ' 🏠' },
+  { id: 'v-acc-particulas-galaxia', name: 'Chunks', price: 9.99, category: 'Extención de Chunks', desc: '100 Chunks', icon: ' 🏠' },
 ];
 
 const ACC_CATEGORIES = ['Extención de Chunks'];
@@ -134,7 +133,7 @@ function RankCard({ rank }: { rank: Rank }) {
       quantity: 1,
       category: 'Rango',
       badge: rank.badge,
-      server: 'Mods',
+      server: 'Vanilla',
     };
     addItem(item);
   };
@@ -148,7 +147,7 @@ function RankCard({ rank }: { rank: Rank }) {
       {rank.popular && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold font-orbitron tracking-widest z-10"
           style={{
-            background: `linear-gradient(135deg, ${rank.color}, rgba(147,51,234,0.8))`,
+            background: `linear-gradient(135deg, ${rank.color}, rgba(34,197,94,0.8))`,
             color: '#fff',
             boxShadow: `0 4px 15px ${rank.glowColor}`,
           }}>
@@ -221,19 +220,19 @@ function AccessoryCard({ acc }: { acc: Accessory }) {
               <p className="text-xs text-gray-400 mt-0.5">{acc.desc}</p>
             </div>
             <span className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
-              style={{ background: 'rgba(147, 51, 234, 0.15)', color: '#c96bff', border: '1px solid rgba(179, 71, 255, 0.25)' }}>
+              style={{ background: 'rgba(34, 197, 94, 0.15)', color: '#86efac', border: '1px solid rgba(34, 197, 94, 0.25)' }}>
               {acc.category}
             </span>
           </div>
           <div className="flex items-center justify-between mt-3">
             <span className="font-bold text-sm" style={{ color: '#ffd700' }}>${acc.price}</span>
             <button
-              onClick={() => addItem({ id: acc.id, name: acc.name, price: acc.price, quantity: 1, category: acc.category, server: 'Mods' })}
+              onClick={() => addItem({ id: acc.id, name: acc.name, price: acc.price, quantity: 1, category: acc.category, server: 'Vanilla' })}
               className="text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-200"
               style={
                 inCart
                   ? { background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#34d399' }
-                  : { background: 'rgba(147, 51, 234, 0.15)', border: '1px solid rgba(179, 71, 255, 0.25)', color: '#c96bff' }
+                  : { background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.25)', color: '#86efac' }
               }
             >
               {inCart ? <Check size={11} /> : <ShoppingCart size={11} />}
@@ -262,7 +261,7 @@ function InfoCard({ item }: { item: typeof INFO_ITEMS[0] }) {
   );
 }
 
-export default function Rangos() {
+export default function VanillaRangos() {
   const [activeCategory, setActiveCategory] = useState('Extención de Chunks');
   const heroRef = useReveal();
   const ranksTitleRef = useReveal();
@@ -277,24 +276,24 @@ export default function Rangos() {
         <div ref={heroRef} className="reveal text-center mb-16">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6"
             style={{
-              background: 'linear-gradient(135deg, #2d1a00 0%, #1a0d00 100%)',
-              border: '2px solid rgba(255, 215, 0, 0.4)',
-              boxShadow: '0 0 40px rgba(255, 215, 0, 0.2)',
+              background: 'linear-gradient(135deg, #0a1e0a 0%, #0d2e0d 100%)',
+              border: '2px solid rgba(34, 197, 94, 0.4)',
+              boxShadow: '0 0 40px rgba(34, 197, 94, 0.2)',
             }}>
-            <Trophy size={36} style={{ color: '#ffd700' }} />
+            <Trophy size={36} style={{ color: '#22c55e' }} />
           </div>
           <h1 className="section-title font-orbitron text-4xl sm:text-5xl mb-4">
-            Tienda BolaLand
+            Tienda BolaLand Vanilla
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto">
-            Potencia tu experiencia con rangos exclusivos y accesorios únicos. Pago único, beneficios permanentes.
+            Potencia tu experiencia vanilla con rangos exclusivos. Pago único, beneficios permanentes.
           </p>
         </div>
 
         {/* Ranks */}
         <section className="mb-20">
           <div ref={ranksTitleRef} className="reveal flex items-center gap-3 mb-8">
-            <Crown size={22} style={{ color: '#ffd700' }} />
+            <Crown size={22} style={{ color: '#22c55e' }} />
             <h2 className="section-title font-orbitron text-2xl">Rangos</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ paddingTop: '16px' }}>
@@ -305,11 +304,9 @@ export default function Rangos() {
         {/* Accessories - oculto, no eliminar */}
         <section className="">
           <div ref={accTitleRef} className="reveal flex items-center gap-3 mb-6">
-            <Sparkles size={22} className="text-violet-400" />
+            <Sparkles size={22} className="text-green-400" />
             <h2 className="section-title font-orbitron text-2xl">Extención de Chunks</h2>
           </div>
-
-          
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {filteredAcc.map(acc => <AccessoryCard key={acc.id} acc={acc} />)}

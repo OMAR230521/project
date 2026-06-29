@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Github, MessageCircle, Sword } from 'lucide-react';
 
 const LINKS = [
-  { label: 'Inicio', path: '/' },
+  { label: 'Servidores', path: '/' },
   { label: 'Discord', path: '/discord' },
   { label: 'Modpack', path: '/modpack' },
   { label: 'Rangos', path: '/rangos' },
@@ -41,7 +41,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-500 max-w-xs text-center md:text-left">
-              El servidor de Minecraft premium con mods. Una aventura sin límites te espera.
+              Dos experiencias únicas, una sola comunidad. Survival con mods o vanilla puro.
             </p>
           </div>
 

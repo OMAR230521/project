@@ -66,16 +66,25 @@ Deno.serve(async (req: Request) => {
     }
 
     if (event.type === "checkout.session.completed") {
+      console.log("WEBHOOK - Evento checkout.session.completed recibido");
       const session = event.data.object as Stripe.Checkout.Session;
       const orderId = session.metadata?.order_id;
       const minecraftNick = session.metadata?.minecraft_nick;
+      const server = session.metadata?.server || 'mods';
+
+      console.log("WEBHOOK - Session metadata:", JSON.stringify(session.metadata));
+      console.log("WEBHOOK - Server recibido:", server);
+      console.log("WEBHOOK - orderId:", orderId);
+      console.log("WEBHOOK - minecraftNick:", minecraftNick);
 
       if (!orderId) {
+        console.log("WEBHOOK - No orderId, respondiendo received:true");
         return new Response(JSON.stringify({ received: true }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
+      console.log("WEBHOOK - Actualizando orden en Supabase...");
       const { data: order, error: orderError } = await supabase
         .from("orders")
         .update({
@@ -87,22 +96,35 @@ Deno.serve(async (req: Request) => {
         .select()
         .single();
 
+      console.log("WEBHOOK - Resultado update order:", JSON.stringify({ order, orderError }));
+
+      if (orderError) {
+        console.log("WEBHOOK - Error al actualizar orden:", orderError.message);
+      }
+
       if (!orderError && order && discordWebhook) {
-        const itemsList = Array.isArray(order.items)
-          ? order.items.map((i: { name: string; quantity: number; price: number }) =>
+        console.log("WEBHOOK - Construyendo embed para Discord...");
+        const items = Array.isArray(order.items) ? order.items : [];
+        const itemsList = items.length > 0
+          ? items.map((i: { name: string; quantity: number; price: number }) =>
               `• **${i.name}** x${i.quantity} — $${(i.price * i.quantity).toFixed(2)}`
             ).join("\n")
           : "Sin detalle";
 
+        const isVanilla = server === 'vanilla';
+        const serverName = isVanilla ? '🌿 BolaLand VANILLA' : '⚡ BolaLand MODS';
+        const embedColor = isVanilla ? 0x22c55e : 0x9333ea;
+
         const discordPayload = {
           embeds: [
             {
-              title: "✅ Nueva Compra Confirmada",
-              color: 0x9333ea,
+              title: isVanilla ? "✅ Nueva Compra — BolaLand VANILLA" : "✅ Nueva Compra Confirmada",
+              color: embedColor,
               fields: [
                 { name: "🎮 NickName Minecraft", value: `\`${minecraftNick}\``, inline: true },
                 { name: "💰 Total", value: `**$${order.total} USD**`, inline: true },
                 { name: "💳 Método", value: "Stripe / Tarjeta", inline: true },
+                { name: "🌐 Servidor", value: serverName, inline: true },
                 { name: "📦 Productos", value: itemsList },
                 { name: "🔑 ID de Compra", value: `\`${orderId}\``, inline: true },
                 { name: "🔐 Payment Intent", value: `\`${session.payment_intent || "N/A"}\``, inline: true },
@@ -115,13 +137,24 @@ Deno.serve(async (req: Request) => {
           ],
         };
 
-        await fetch(discordWebhook, {
+        console.log("WEBHOOK - Enviando a Discord...");
+        const discordResponse = await fetch(discordWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(discordPayload),
         });
 
+        console.log("WEBHOOK - Respuesta de Discord:", discordResponse.status, discordResponse.statusText);
+
+        if (!discordResponse.ok) {
+          const discordBody = await discordResponse.text();
+          console.log("WEBHOOK - Cuerpo de respuesta Discord:", discordBody);
+        }
+
         await supabase.from("orders").update({ discord_notified: true }).eq("id", orderId);
+        console.log("WEBHOOK - discord_notified actualizado");
+      } else {
+        console.log("WEBHOOK - No se envió a Discord. orderError:", !!orderError, "order:", !!order, "discordWebhook:", !!discordWebhook);
       }
     }
 
