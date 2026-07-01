@@ -28,7 +28,7 @@ export default function ServerSelect() {
 
       {/* Content */}
       <div className="relative z-10 pt-24 pb-16 w-full max-w-5xl mx-auto px-4">
-        <h1 className="section-title font-orbitron text-3xl sm:text-4xl lg:text-5xl mb-3 text-center">
+        <h1 className="section-title font-orbitron text-3xl sm:text-4xl lg:text-5xl leading-[1.25] pb-2 mb-3 text-center">
           Elegí tu experiencia
         </h1>
         <p className="text-gray-400 text-base mb-12 text-center">
