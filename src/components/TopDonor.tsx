@@ -155,7 +155,7 @@ export default function TopDonor({ serverType }: TopDonorProps) {
               {/* Skin que sobresale del marco */}
               <div
                 className="absolute left-1/2 -translate-x-1/2"
-                style={{ top: '-110px', zIndex: 20, width: '180px' }}
+                style={{ top: '-190px', zIndex: 20, width: '120px' }}
               >
                 {/* Corona encima de la skin */}
                 <div className="flex justify-center mb-1">
@@ -185,8 +185,8 @@ export default function TopDonor({ serverType }: TopDonorProps) {
                   alt={`Skin de ${donor.minecraft_nick}`}
                   className="relative mx-auto"
                   style={{
-                    width: '120px',
-                    height: '180px',
+                    width: '150px',
+                    height: '225px',
                     objectFit: 'contain',
                     filter: `drop-shadow(0 0 20px rgba(${accentColorRgb}, 0.6)) drop-shadow(0 8px 24px rgba(0,0,0,0.8))`,
                     imageRendering: 'pixelated',
