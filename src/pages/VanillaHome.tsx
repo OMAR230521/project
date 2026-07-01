@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Users, Package, Zap, Sword, Star, Globe, ChevronRight, Server, Trophy, Sparkles } from 'lucide-react';
+import { Users, Zap, Sword, Star, Globe, ChevronRight, Server, Trophy, Sparkles } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
+import TopDonor from '../components/TopDonor';
 
 function StatCard({ value, label, icon: Icon }: { value: string; label: string; icon: typeof Users }) {
   const ref = useReveal();
   return (
     <div ref={ref} className="reveal text-center">
       <div className="glass rounded-2xl p-6 glass-hover">
-        <Icon size={24} className="mx-auto mb-3 text-violet-400" />
+        <Icon size={24} className="mx-auto mb-3 text-green-400" />
         <p className="font-orbitron font-bold text-3xl" style={{
           background: 'linear-gradient(135deg, #ffe44d, #f0b429)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
@@ -37,7 +38,7 @@ function SectionHeader({ badge, title, subtitle }: { badge: string; title: strin
   return (
     <div ref={ref} className="reveal inline-block w-full text-center">
       <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4"
-        style={{ background: 'rgba(147, 51, 234, 0.1)', border: '1px solid rgba(179, 71, 255, 0.25)', color: '#c96bff' }}>
+        style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.25)', color: '#22c55e' }}>
         <Sparkles size={12} />
         {badge}
       </span>
@@ -52,16 +53,16 @@ function CtaBanner() {
   return (
     <div ref={ref} className="reveal relative rounded-3xl overflow-hidden p-10 text-center"
       style={{
-        background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.9) 0%, rgba(30, 12, 60, 0.9) 50%, rgba(10, 8, 25, 0.9) 100%)',
-        border: '1px solid rgba(179, 71, 255, 0.3)',
-        boxShadow: '0 20px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(179,71,255,0.1)',
+        background: 'linear-gradient(135deg, rgba(10, 30, 10, 0.9) 0%, rgba(13, 46, 13, 0.9) 50%, rgba(6, 15, 6, 0.9) 100%)',
+        border: '1px solid rgba(34, 197, 94, 0.3)',
+        boxShadow: '0 20px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(34,197,94,0.1)',
       }}>
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(147, 51, 234, 0.15) 0%, transparent 60%)' }} />
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(34, 197, 94, 0.15) 0%, transparent 60%)' }} />
       <Trophy size={40} className="mx-auto mb-4 relative z-10" style={{ color: '#ffd700' }} />
       <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4 relative z-10"
         style={{
-          background: 'linear-gradient(135deg, #fff 0%, #c96bff 50%, #ffd700 100%)',
+          background: 'linear-gradient(135deg, #fff 0%, #22c55e 50%, #ffd700 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
         }}>
         Únete a la aventura
@@ -157,7 +158,12 @@ export default function VanillaHome() {
             </Link>
           </div>
 
-          <div className="mt-16 flex flex-col items-center gap-2 opacity-40">
+          {/* Top Donor — justo debajo de los botones, toque verde vanilla */}
+          <div className="mt-12 w-full">
+            <TopDonor serverType="vanilla" />
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-2 opacity-40">
             <p className="text-xs text-gray-500 tracking-widest uppercase">Explorar</p>
           </div>
         </div>
@@ -180,7 +186,7 @@ export default function VanillaHome() {
             <SectionHeader
               badge="Por qué elegirnos"
               title="Una experiencia épica"
-              subtitle="Diseñado para quienes buscan la aventura definitiva en Minecraft con mods."
+              subtitle="Diseñado para quienes buscan la aventura definitiva en Minecraft vanilla."
             />
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Users, Package, Zap, Sword, Star, Globe, ChevronRight, Server, Trophy, Sparkles } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
+import TopDonor from '../components/TopDonor';
 
 function StatCard({ value, label, icon: Icon }: { value: string; label: string; icon: typeof Users }) {
   const ref = useReveal();
@@ -88,13 +89,12 @@ const FEATURES = [
   { icon: Package, title: 'Sistema de Mods', desc: 'Más de 200 mods cuidadosamente seleccionados para ofrecer una experiencia equilibrada y épica sin sacrificar el rendimiento.', color: '#f0b429' },
   { icon: Zap, title: 'Eventos Épicos', desc: 'Competencias, hunts y eventos de temporada con recompensas exclusivas. Siempre algo nuevo que descubrir.', color: '#10b981' },
   { icon: Globe, title: 'Optimización Total', desc: 'Servidor de alto rendimiento con configuración optimizada para que tu experiencia sea fluida independientemente de tu PC.', color: '#3b82f6' },
-  { icon: Sword, title: 'Experiencia Inmersiva', desc: 'Mundos personalizados, biomas únicos y narrativa épica que te sumergirá en horas de exploración y aventura.', color: '#ec4899' },
+  { icon: Sword, title: 'Experiencia Inmersiva', desc: 'Mundos personalizados, biomas únicos y narrativa épica que te sumergirán en horas de exploración y aventura.', color: '#ec4899' },
   { icon: Star, title: 'Rangos Premium', desc: 'Sistema de rangos exclusivos con beneficios únicos!.', color: '#c96bff' },
 ];
 
 export default function Home() {
   const heroRef = useReveal();
-
   return (
     <div className="relative">
       {/* Hero section */}
@@ -115,7 +115,6 @@ export default function Home() {
             />
           ))}
         </div>
-
         <div ref={heroRef} className="reveal text-center max-w-4xl mx-auto z-10 pt-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs font-medium"
             style={{
@@ -124,9 +123,8 @@ export default function Home() {
               color: '#86efac',
             }}>
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            Servidor Online — bolaland.net
+            Servidor Online · bolaland.net
           </div>
-
           <div className="mb-6">
             <div className="inline-block relative mb-4">
               <div className="w-72 h-72 sm:w-96 sm:h-96 mx-auto rounded-[3rem] overflow-hidden border border-violet-500/40 flex items-center justify-center relative"
@@ -140,12 +138,10 @@ export default function Home() {
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               </div>
             </div>
-
             <p className="text-xl sm:text-2xl text-gray-300 font-light tracking-wide">
               Una aventura sin límites te espera.
             </p>
           </div>
-
           <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
             <Link to="/discord" className="btn-primary px-8 py-4 text-base rounded-2xl">
               <span>Discord</span>
@@ -161,7 +157,12 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="mt-16 flex flex-col items-center gap-2 opacity-40">
+          {/* Top Donor — justo debajo de los botones */}
+          <div className="mt-12 w-full">
+            <TopDonor serverType="mods" />
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-2 opacity-40">
             <p className="text-xs text-gray-500 tracking-widest uppercase">Explorar</p>
           </div>
         </div>
