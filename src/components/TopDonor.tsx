@@ -278,7 +278,7 @@ export default function TopDonor({ serverType }: TopDonorProps) {
                     className="text-xs tracking-widest uppercase font-medium"
                     style={{ color: `rgba(${accentColorRgb}, 0.8)` }}
                   >
-                    ¡Gracias por apoyar el servidor!
+                    ¡Donador del Mes. Gracias por apoyar el servidor!
                   </p>
                   <Sparkles size={12} style={{ color: accentColor, opacity: 0.7 }} />
                 </div>
