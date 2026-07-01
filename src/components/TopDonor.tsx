@@ -194,13 +194,13 @@ export default function TopDonor({ serverType }: TopDonorProps) {
                   }}
                 >
                   <img
-                     src={`https://crafatar.com/renders/body/${donor.minecraft_nick}?scale=6&overlay`}
-                     alt={`Skin de ${donor.minecraft_nick}`}
-                     className="w-full h-full object-contain scale-110"
-                     onError={(e) => {
-                     (e.target as HTMLImageElement).src = 
-                     `https://crafatar.com/avatars/${donor.minecraft_nick}?size=256&overlay`;
-                      }}
+                   src={`https://mc-heads.net/body/${donor.minecraft_nick}/256`}
+                   alt={`Skin de ${donor.minecraft_nick}`}
+                   className="w-full h-full object-contain scale-110"
+                   onError={(e) => {
+                   (e.target as HTMLImageElement).src = 
+                 `https://mc-heads.net/avatar/${donor.minecraft_nick}/256`;
+                     }}
                    />
                 </div>
               </div>
