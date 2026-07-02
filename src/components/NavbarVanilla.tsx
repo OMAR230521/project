@@ -39,25 +39,39 @@ export default function NavbarVanilla() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
 
-            {/* Logo */}
-            <Link to="/vanilla" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-green-500/40 shadow-lg shadow-green-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-green-400/70 group-hover:shadow-green-500/50"
-                style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
-                <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
-              </div>
-              <span
-                className="font-orbitron font-bold tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
-                style={{
-                  fontSize: '0.95rem',
-                  background: 'linear-gradient(135deg, #fff 0%, #22c55e 60%, #ffd700 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                BOLALAND VANILLA
-              </span>
-            </Link>
+            {/* Izquierda: botón casa + logo */}
+            <div className="flex items-center gap-3">
+              {/* Botón casa — solo visible si no estamos en home */}
+              {!isHome && (
+                <Link
+                  to="/"
+                  className="p-2 rounded-lg text-gray-400 hover:text-violet-300 hover:bg-white/5 transition-all duration-200"
+                  title="Volver a selección de servidor"
+                >
+                  <Home size={18} />
+                </Link>
+              )}
+
+              {/* Logo */}
+              <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
+                  style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
+                  <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
+                </div>
+                <span
+                  className="font-orbitron font-bold text-xl tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
+                  style={{
+                    background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  BOLALAND
+                </span>
+              </Link>
+            </div>
+
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-1">

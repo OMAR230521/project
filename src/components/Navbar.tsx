@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ShoppingCart, X, Menu } from 'lucide-react';
+import { ShoppingCart, X, Menu, Home } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const NAV_LINKS_MODS = [
@@ -47,24 +47,38 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex items-center justify-between h-16">
 
-            {/* Logo */}
-            <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
-                style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
-                <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
-              </div>
-              <span
-                className="font-orbitron font-bold text-xl tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
-                style={{
-                  background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                BOLALAND
-              </span>
-            </Link>
+            {/* Izquierda: botón casa + logo */}
+            <div className="flex items-center gap-3">
+              {/* Botón casa — solo visible si no estamos en home */}
+              {!isHome && (
+                <Link
+                  to="/"
+                  className="p-2 rounded-lg text-gray-400 hover:text-violet-300 hover:bg-white/5 transition-all duration-200"
+                  title="Volver a selección de servidor"
+                >
+                  <Home size={18} />
+                </Link>
+              )}
+
+              {/* Logo */}
+              <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
+                  style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
+                  <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
+                </div>
+                <span
+                  className="font-orbitron font-bold text-xl tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
+                  style={{
+                    background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  BOLALAND
+                </span>
+              </Link>
+            </div>
 
             {/* Desktop nav — centrado */}
             <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
@@ -129,16 +143,23 @@ export default function Navbar() {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between px-6 py-5 border-b border-violet-900/30">
-            <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
-                <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
-              </div>
-              <span className="font-orbitron font-bold text-lg tracking-widest"
-                style={{ background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                BOLALAND
-              </span>
-            </Link>
+            <div className="flex items-center gap-2">
+              {!isHome && (
+                <Link to="/" className="p-1.5 rounded-lg text-gray-400 hover:text-violet-300 hover:bg-white/5 transition-all" title="Volver a servidores">
+                  <Home size={16} />
+                </Link>
+              )}
+              <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
+                  <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
+                </div>
+                <span className="font-orbitron font-bold text-lg tracking-widest"
+                  style={{ background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  BOLALAND
+                </span>
+              </Link>
+            </div>
             <button onClick={() => setMobileOpen(false)} className="p-2 rounded-lg text-gray-400 hover:text-violet-300 hover:bg-white/5 transition-all">
               <X size={20} />
             </button>
