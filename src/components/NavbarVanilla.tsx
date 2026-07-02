@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ShoppingCart, X, Menu } from 'lucide-react';
+import { ShoppingCart, X, Menu, Home } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const NAV_LINKS = [
@@ -14,7 +14,8 @@ export default function NavbarVanilla() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const { totalItems, toggleCart } = useCart();
+  const { totalItems, toggleCart } = useCart(); 
+  const isHome = location.pathname === '/vanilla';
 
   const isActivePath = (path: string) => location.pathname === path;
 
