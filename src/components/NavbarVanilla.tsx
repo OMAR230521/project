@@ -15,7 +15,7 @@ export default function NavbarVanilla() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { totalItems, toggleCart } = useCart(); 
-  const isHome = location.pathname === '/vanilla';
+  const isHome = location.pathname === '/';
 
   const isActivePath = (path: string) => location.pathname === path;
 
@@ -54,7 +54,7 @@ export default function NavbarVanilla() {
               )}
 
               {/* Logo */}
-              <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3 group">
+              <Link to="/vanilla" className="flex items-center gap-3 group">
                 <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
                   style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
                   <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
@@ -62,11 +62,11 @@ export default function NavbarVanilla() {
                 <span
                   className="font-orbitron font-bold text-xl tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
                   style={{
-                    background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
+  background: 'linear-gradient(135deg, #ffffff 0%, #86efac 30%, #22c55e 65%, #15803d 90%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+}}
                 >
                   BOLALAND
                 </span>
