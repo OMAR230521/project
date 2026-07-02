@@ -3,13 +3,15 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ShoppingCart, X, Menu } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
-const NAV_LINKS = [
-  { label: 'Inicio', path: '/mods' },
-  { label: 'Discord', path: '/mods/discord' },
-  { label: 'Modpack', path: '/modpack' },
-  { label: 'Rangos', path: '/mods/ranks' },
-  { label: 'Nosotros', path: '/mods/about' },
-];
+const NAV_LINKS = location.pathname === '/'
+  ? [{ label: 'Servidores', path: '/' }]
+  : [
+      { label: 'Inicio', path: '/mods' },
+      { label: 'Discord', path: '/mods/discord' },
+      { label: 'Modpack', path: '/modpack' },
+      { label: 'Rangos', path: '/mods/ranks' },
+      { label: 'Nosotros', path: '/mods/about' },
+    ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -37,7 +39,7 @@ export default function Navbar() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-cosmic-black/80 backdrop-blur-xl border-b border-violet-900/30 shadow-lg shadow-black/40' : 'bg-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
@@ -60,7 +62,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-1">
+              <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               {NAV_LINKS.map(link => (
                 <NavLink
                   key={link.path}
@@ -152,6 +154,7 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
+
 
           <div className="px-6 py-5 border-t border-violet-900/30">
             <p className="text-xs text-gray-500 text-center">© 2026 BolaLand</p>
