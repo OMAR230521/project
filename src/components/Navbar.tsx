@@ -3,21 +3,26 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ShoppingCart, X, Menu } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
-const NAV_LINKS = location.pathname === '/'
-  ? [{ label: 'Servidores', path: '/' }]
-  : [
-      { label: 'Inicio', path: '/mods' },
-      { label: 'Discord', path: '/mods/discord' },
-      { label: 'Modpack', path: '/modpack' },
-      { label: 'Rangos', path: '/mods/ranks' },
-      { label: 'Nosotros', path: '/mods/about' },
-    ];
+const NAV_LINKS_MODS = [
+  { label: 'Inicio', path: '/mods' },
+  { label: 'Discord', path: '/mods/discord' },
+  { label: 'Modpack', path: '/modpack' },
+  { label: 'Rangos', path: '/mods/ranks' },
+  { label: 'Nosotros', path: '/mods/about' },
+];
+
+const NAV_LINKS_HOME = [
+  { label: 'Servidores', path: '/' },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { totalItems, toggleCart } = useCart();
+
+  const isHome = location.pathname === '/';
+  const NAV_LINKS = isHome ? NAV_LINKS_HOME : NAV_LINKS_MODS;
 
   const isActivePath = (path: string) => location.pathname === path;
 
@@ -43,7 +48,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link to="/mods" className="flex items-center gap-3 group">
+            <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
                 style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
                 <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
@@ -61,8 +66,8 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop nav */}
-              <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+            {/* Desktop nav — centrado */}
+            <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               {NAV_LINKS.map(link => (
                 <NavLink
                   key={link.path}
@@ -124,7 +129,7 @@ export default function Navbar() {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between px-6 py-5 border-b border-violet-900/30">
-            <Link to="/mods" className="flex items-center gap-3">
+            <Link to={isHome ? '/' : '/mods'} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg flex-shrink-0"
                 style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
                 <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
@@ -154,7 +159,6 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
-
 
           <div className="px-6 py-5 border-t border-violet-900/30">
             <p className="text-xs text-gray-500 text-center">© 2026 BolaLand</p>
