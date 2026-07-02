@@ -4,14 +4,13 @@ import { ShoppingCart, X, Menu } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const NAV_LINKS = [
-  { label: 'Inicio', path: '/mods' },
-  { label: 'Discord', path: '/mods/discord' },
-  { label: 'Modpack', path: '/modpack' },
-  { label: 'Rangos', path: '/mods/ranks' },
-  { label: 'Nosotros', path: '/mods/about' },
+  { label: 'Inicio', path: '/vanilla' },
+  { label: 'Discord', path: '/vanilla/discord' },
+  { label: 'Rangos', path: '/vanilla/ranks' },
+  { label: 'Nosotros', path: '/vanilla/about' },
 ];
 
-export default function Navbar() {
+export default function NavbarVanilla() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -35,27 +34,28 @@ export default function Navbar() {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-cosmic-black/80 backdrop-blur-xl border-b border-violet-900/30 shadow-lg shadow-black/40' : 'bg-transparent'
+        scrolled ? 'bg-cosmic-black/80 backdrop-blur-xl border-b border-green-900/30 shadow-lg shadow-black/40' : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link to="/mods" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg shadow-violet-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-violet-400/70 group-hover:shadow-violet-500/50"
+            <Link to="/vanilla" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-lg overflow-hidden border border-green-500/40 shadow-lg shadow-green-900/40 transition-all duration-300 flex-shrink-0 group-hover:border-green-400/70 group-hover:shadow-green-500/50"
                 style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
                 <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
               </div>
               <span
-                className="font-orbitron font-bold text-xl tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
+                className="font-orbitron font-bold tracking-widest transition-all duration-300 group-hover:tracking-[0.15em]"
                 style={{
-                  background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)',
+                  fontSize: '0.95rem',
+                  background: 'linear-gradient(135deg, #fff 0%, #22c55e 60%, #ffd700 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 }}
               >
-                BOLALAND
+                BOLALAND VANILLA
               </span>
             </Link>
 
@@ -68,15 +68,15 @@ export default function Navbar() {
                   end
                   className={({ isActive }) =>
                     `relative px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
-                      isActive ? 'text-violet-300' : 'text-gray-300 hover:text-violet-300'
+                      isActive ? 'text-green-300' : 'text-gray-300 hover:text-green-300'
                     }`
                   }
                 >
                   {({ isActive }) => (
                     <>
-                      {isActive && <span className="absolute inset-0 rounded-lg bg-violet-500/10 border border-violet-500/20" />}
+                      {isActive && <span className="absolute inset-0 rounded-lg bg-green-500/10 border border-green-500/20" />}
                       <span className="relative">{link.label}</span>
-                      {isActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400" />}
+                      {isActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-green-400" />}
                     </>
                   )}
                 </NavLink>
@@ -86,19 +86,19 @@ export default function Navbar() {
             {/* Right side */}
             <div className="flex items-center gap-3">
               <button onClick={toggleCart}
-                className="relative p-2 rounded-lg text-gray-300 hover:text-violet-300 hover:bg-white/5 transition-all duration-200"
+                className="relative p-2 rounded-lg text-gray-300 hover:text-green-300 hover:bg-white/5 transition-all duration-200"
                 aria-label="Carrito">
                 <ShoppingCart size={20} />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
-                    style={{ background: 'linear-gradient(135deg, #9333ea, #7c10d0)' }}>
+                    style={{ background: 'linear-gradient(135deg, #16a34a, #15803d)' }}>
                     {totalItems > 9 ? '9+' : totalItems}
                   </span>
                 )}
               </button>
               <div className="md:hidden">
                 <button onClick={() => setMobileOpen(!mobileOpen)}
-                  className="p-2 rounded-lg text-gray-300 hover:text-violet-300 hover:bg-white/5 transition-all duration-200"
+                  className="p-2 rounded-lg text-gray-300 hover:text-green-300 hover:bg-white/5 transition-all duration-200"
                   aria-label="Abrir menú">
                   <Menu size={24} />
                 </button>
@@ -118,21 +118,21 @@ export default function Navbar() {
       {/* Mobile sidebar */}
       <div
         className={`fixed top-0 right-0 bottom-0 w-72 z-50 md:hidden transition-all duration-400 ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}
-        style={{ background: 'rgba(10, 8, 22, 0.97)', backdropFilter: 'blur(24px)', borderLeft: '1px solid rgba(179, 71, 255, 0.2)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}
+        style={{ background: 'rgba(10, 8, 22, 0.97)', backdropFilter: 'blur(24px)', borderLeft: '1px solid rgba(34, 197, 94, 0.2)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between px-6 py-5 border-b border-violet-900/30">
-            <Link to="/mods" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-violet-500/40 shadow-lg flex-shrink-0"
+          <div className="flex items-center justify-between px-6 py-5 border-b border-green-900/30">
+            <Link to="/vanilla" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg overflow-hidden border border-green-500/40 shadow-lg flex-shrink-0"
                 style={{ background: 'linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0a0018 100%)' }}>
                 <img src="/bolaland.png" alt="BolaLand logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-orbitron font-bold text-lg tracking-widest"
-                style={{ background: 'linear-gradient(135deg, #fff 0%, #c96bff 60%, #ffd700 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                BOLALAND
+              <span className="font-orbitron font-bold tracking-widest"
+                style={{ fontSize: '0.85rem', background: 'linear-gradient(135deg, #fff 0%, #22c55e 60%, #ffd700 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                BOLALAND VANILLA
               </span>
             </Link>
-            <button onClick={() => setMobileOpen(false)} className="p-2 rounded-lg text-gray-400 hover:text-violet-300 hover:bg-white/5 transition-all">
+            <button onClick={() => setMobileOpen(false)} className="p-2 rounded-lg text-gray-400 hover:text-green-300 hover:bg-white/5 transition-all">
               <X size={20} />
             </button>
           </div>
@@ -142,18 +142,18 @@ export default function Navbar() {
               <Link key={link.path} to={link.path}
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActivePath(link.path)
-                    ? 'text-white bg-violet-500/15 border border-violet-500/30'
-                    : 'text-gray-300 hover:text-violet-300 hover:bg-white/5'
+                    ? 'text-white bg-green-500/15 border border-green-500/30'
+                    : 'text-gray-300 hover:text-green-300 hover:bg-white/5'
                 }`}
                 style={{ animationDelay: `${i * 60}ms` }}>
                 <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ background: isActivePath(link.path) ? 'linear-gradient(135deg, #c96bff, #ffd700)' : 'rgba(255,255,255,0.2)' }} />
+                  style={{ background: isActivePath(link.path) ? 'linear-gradient(135deg, #22c55e, #ffd700)' : 'rgba(255,255,255,0.2)' }} />
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="px-6 py-5 border-t border-violet-900/30">
+          <div className="px-6 py-5 border-t border-green-900/30">
             <p className="text-xs text-gray-500 text-center">© 2026 BolaLand</p>
           </div>
         </div>

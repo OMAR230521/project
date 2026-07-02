@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import CosmicBackground from './components/CosmicBackground';
 import Navbar from './components/Navbar';
+import NavbarVanilla from './components/NavbarVanilla';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
 import LoadingScreen from './components/LoadingScreen';
@@ -28,6 +29,9 @@ function ScrollToTop() {
 function AppContent() {
   const [showLoading, setShowLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const location = useLocation();
+
+  const isVanilla = location.pathname.startsWith('/vanilla');
 
   useEffect(() => {
     const hasSeenLoading = sessionStorage.getItem('app-loading-shown');
@@ -48,7 +52,8 @@ function AppContent() {
     <div className="relative min-h-screen" style={{ background: '#060610' }}>
       <CosmicBackground />
       <div className={`relative z-10 ${showLoading ? 'pointer-events-none' : ''}`}>
-        <Navbar />
+        {/* Navbar según servidor */}
+        {isVanilla ? <NavbarVanilla /> : <Navbar />}
         <main>
           <Routes>
             <Route path="/" element={<ServerSelect />} />

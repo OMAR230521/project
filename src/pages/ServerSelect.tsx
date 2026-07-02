@@ -27,15 +27,15 @@ export default function ServerSelect() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 pt-24 pb-16 w-full max-w-5xl mx-auto px-4">
+      <div className="relative z-10 pt-24 pb-16 w-full px-4 flex flex-col items-center">
         <h1 className="section-title font-orbitron text-3xl sm:text-4xl lg:text-5xl leading-[1.25] pb-2 mb-3 text-center">
           Elegí tu experiencia
         </h1>
-        <p className="text-gray-400 text-base mb-12 text-center">
+        <p className="text-gray-400 text-base mb-12 text-center max-w-lg">
           Dos experiencias únicas, una sola comunidad
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full">
           {/* BolaLand MODS card */}
           <div ref={ref} className="reveal glass glass-hover rounded-3xl p-8 text-center flex flex-col items-center"
             style={{ border: '1px solid rgba(179, 71, 255, 0.25)' }}>
@@ -72,7 +72,7 @@ export default function ServerSelect() {
                 boxShadow: '0 0 60px rgba(34, 197, 94, 0.35), 0 0 120px rgba(34, 197, 94, 0.12)',
                 background: 'linear-gradient(135deg, #0a1e0a 0%, #0d2e0d 50%, #060f06 100%)',
               }}>
-              <img src="/bolaland-vanilla.png" alt="BolaLand Vanilla" className="w-full h-full object-cover" />
+              <img src="/bolaland.png" alt="BolaLand Vanilla" className="w-full h-full object-cover" />
             </div>
 
             <span className="px-3 py-1 rounded-full text-xs font-bold font-orbitron mb-3"

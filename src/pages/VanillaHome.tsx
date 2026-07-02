@@ -135,7 +135,7 @@ export default function VanillaHome() {
                   background: 'linear-gradient(135deg, #0a1e0a 0%, #0d2e0d 50%, #060f06 100%)',
                   boxShadow: '0 0 80px rgba(34, 197, 94, 0.45), 0 0 160px rgba(34, 197, 94, 0.18)',
                 }}>
-                <img src="/bolaland-vanilla.png" alt="BolaLand Vanilla logo" className="w-full h-full object-cover" />
+                <img src="/bolaland.png" alt="BolaLand Vanilla logo" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-green-400/20 border border-green-400/50 flex items-center justify-center">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
