@@ -23,7 +23,7 @@ const COLORS = ['#ffffff', '#ffe29c', '#9d52ff'];
 const WORD = 'BolaLand';
 
 // Fase 0: flotación + letras aparecen | Fase 1: convergencia | Fase 2: explosión | Fase 3: fade
-const PHASE_DURATIONS = [3200, 1700, 800, 500];
+const PHASE_DURATIONS = [3200, 2000, 800, 500];
 
 // Cada letra aparece cada N ms durante la fase 0
 const LETTER_INTERVAL = 180;
