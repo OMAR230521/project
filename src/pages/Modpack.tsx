@@ -3,17 +3,15 @@ import { useReveal } from '../hooks/useReveal';
 
 const MODS = [
   { name: 'Create', category: 'Tecnología', desc: 'Maquinaria y automatización rotacional' },
-  { name: 'Botania', category: 'Magia', desc: 'Magia basada en flores y naturaleza' },
-  { name: 'Tinkers Construct', category: 'Herramientas', desc: 'Herramientas y armas personalizables' },
-  { name: 'Applied Energistics 2', category: 'Storage', desc: 'Red de almacenamiento masivo' },
-  { name: 'Thaumcraft', category: 'Magia', desc: 'Investigación mágica y runas' },
-  { name: 'Immersive Engineering', category: 'Tecnología', desc: 'Ingeniería industrial realista' },
-  { name: 'Blood Magic', category: 'Magia', desc: 'Rituales y magia de sangre' },
-  { name: 'Twilight Forest', category: 'Exploración', desc: 'Dimensión de bosque encantado' },
+  { name: 'Bor in Chaos', category: 'Terror y Supervivencia ', desc: 'Criaturas, Gefes, Armamento y Estructuras nuevas' },
+  { name: 'Chipped', category: 'Herramientas', desc: 'Herramientas y bloques Personalizables' },
+  { name: 'Armageddon', category: 'Gefes, Desafios', desc: 'Desafios y Criaturas desafiantes' },
+  { name: 'Artifacts', category: 'Accesorios especiales', desc: 'Objetos con habilidades únicas' },
+  { name: 'Camera Mod', category: 'Tecnología', desc: 'Saca Fotos en el Servidor' },
+  { name: 'EvilCraft', category: 'Magia', desc: 'Rituales y magia de sangre' },
+  { name: 'Simple Voice Chat', category: 'Comunicación', desc: 'Chat de voz en vivo durante el juego' },
   { name: 'Mekanism', category: 'Tecnología', desc: 'Tecnología avanzada y energía' },
-  { name: 'Natura', category: 'Exploración', desc: 'Biomas y plantas nuevas' },
-  { name: 'Mystical Agriculture', category: 'Agricultura', desc: 'Cultivo de recursos y materiales' },
-  { name: "Pam's HarvestCraft", category: 'Agricultura', desc: 'Cientos de comidas y cultivos' },
+  
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -27,15 +25,15 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const REQUIREMENTS = [
   { icon: Cpu, label: 'Procesador', min: 'Core i5 8a gen', rec: 'Core i7 8a gen+', color: '#3b82f6' },
-  { icon: Monitor, label: 'RAM', min: '6 GB libres', rec: '8 GB+ libres', color: '#9333ea' },
-  { icon: HardDrive, label: 'Almacenamiento', min: '4 GB libres', rec: '6 GB+ libres', color: '#f0b429' },
+  { icon: Monitor, label: 'RAM', min: '7 GB libres', rec: '8 GB+ libres', color: '#9333ea' },
+  { icon: HardDrive, label: 'Almacenamiento', min: '2 GB libres', rec: '4 GB+ libres', color: '#f0b429' },
 ];
 
 const STEPS = [
   { step: '01', title: 'Descarga CurseForge o FTB App', desc: 'Instala el launcher de tu preferencia. Recomendamos CurseForge App para una instalación sencilla.' },
   { step: '02', title: 'Descarga el modpack', desc: 'Haz clic en el botón de descarga de arriba. El archivo .zip contiene todo lo necesario.' },
   { step: '03', title: 'Importa el modpack', desc: 'En CurseForge, ve a "Create Custom Profile" > "Import" y selecciona el archivo descargado.' },
-  { step: '04', title: 'Configura la RAM', desc: 'Asigna mínimo 6 GB de RAM en los ajustes del perfil para un rendimiento óptimo.' },
+  { step: '04', title: 'Configura la RAM', desc: 'Asigna mínimo 7 GB de RAM en los ajustes del perfil para un rendimiento óptimo.' },
   { step: '05', title: '¡Conecta y juega!', desc: 'Inicia el perfil y conecta al servidor play.bolaland.net. ¡La aventura comienza!' },
 ];
 
@@ -118,26 +116,29 @@ export default function Modpack() {
             Modpack BolaLand
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto mb-8">
-            Más de 200 mods seleccionados para una experiencia épica. Instalación guiada y soporte completo.
+            Más de 140 mods seleccionados para una experiencia épica. Instalación guiada y soporte completo.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <button type="button" className="btn-primary px-8 py-3.5 rounded-2xl text-base">
-              <Download size={18} />
-              Descargar Modpack
-            </button>
-            <a href="#tutorial" className="btn-outline px-8 py-3.5 rounded-2xl text-base">
-              <BookOpen size={18} />
-              Ver Tutorial
-            </a>
-          </div>
+          <a
+             href="https://www.curseforge.com/minecraft/share/T1L8E88D"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="btn-primary px-8 py-3.5 rounded-2xl text-base flex items-center gap-2"
+           >
+           Descargar Modpack
+           </a>
+  <a href="#tutorial" className="btn-outline px-8 py-3.5 rounded-2xl text-base flex items-center gap-2">
+    <BookOpen size={18} />
+    Ver Tutorial
+  </a>
+</div>
 
           <div className="flex flex-wrap justify-center gap-3 mt-6">
             {[
-              { label: 'Minecraft 1.20.1', color: '#84cc16' },
-              { label: 'NeoForge 47.x', color: '#f0b429' },
-              { label: 'Java 17+', color: '#3b82f6' },
-              { label: '50+ mods', color: '#9333ea' },
+              { label: 'Minecraft 1.21.1', color: '#84cc16' },
+              { label: 'NeoForge ', color: '#f0b429' },
+              { label: '140+ mods', color: '#9333ea' },
             ].map(b => (
               <span key={b.label} className="px-3 py-1 rounded-full text-xs font-medium"
                 style={{ background: `${b.color}15`, border: `1px solid ${b.color}30`, color: b.color }}>
@@ -179,7 +180,7 @@ export default function Modpack() {
           <div ref={noteRef} className="reveal mt-4 glass rounded-2xl p-5 flex items-center gap-3">
             <AlertCircle size={18} className="text-violet-400 flex-shrink-0" />
             <p className="text-sm text-gray-300">
-              Lista parcial. El modpack incluye más de 50 mods. Todos son compatibles entre sí y han sido probados por nuestro equipo.
+              Lista parcial. El modpack incluye más de 140 mods. Todos son compatibles entre sí y han sido probados por nuestro equipo.
             </p>
           </div>
         </section>
@@ -197,13 +198,17 @@ export default function Modpack() {
             Descarga el modpack, conéctate al servidor y comienza tu aventura en BolaLand.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <button type="button" className="btn-primary px-8 py-3 rounded-2xl">
-              <Download size={16} />
-              Descargar Modpack v2.1
-            </button>
+            <a
+             href="https://www.curseforge.com/minecraft/share/T1L8E88D"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="btn-primary px-8 py-3.5 rounded-2xl text-base flex items-center gap-2"
+           >
+           Descargar Modpack
+           </a>
             <div className="glass rounded-2xl px-6 py-3 flex items-center gap-2">
               <Wifi size={14} className="text-green-400" />
-              <span className="text-sm font-mono text-gray-200">play.bolaland.net</span>
+              <span className="text-sm font-mono text-gray-200">-</span>
             </div>
           </div>
         </div>

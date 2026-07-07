@@ -18,14 +18,14 @@ interface Rank {
 const RANKS: Rank[] = [
   {
     id: 'rank-aventurero',
-    name: 'Humildad',
+    name: 'Dios te Ayude',
     price: 2.99,
     color: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: Shield,
-    badge: 'chupala',
+    badge: 'Apiadate de mi',
     benefits: [
-      'Prefijo [pete] verde',
+      'Prefijo [Dios te Ayude] verde',
       'Kit de bienvenida',
       'Acceso a /fly en lobby',
       '3 cachondas rikas',
@@ -34,31 +34,31 @@ const RANKS: Rank[] = [
   },
   {
     id: 'rank-guerrero',
-    name: 'te la comes toda lo se',
+    name: 'Que Agusticidad',
     price: 5.99,
     color: '#3b82f6',
     glowColor: 'rgba(59, 130, 246, 0.3)',
     icon: Sword,
-    badge: 'asi put4?',
+    badge: 'Agusto?',
     benefits: [
       'Todo lo de zorra vas a tener',
-      'Prefijo de [Put4] azulada',
+      'Prefijo de [Que Agusticidad] azulada',
       'Acceso a arena PvP VIP',
       'Mascota básica',
     ],
   },
   {
     id: 'rank-legendario',
-    name: 'Legendario',
+    name: 'El que Puede Puede',
     price: 19.99,
     color: '#c96bff',
     glowColor: 'rgba(201, 107, 255, 0.4)',
     icon: Star,
-    badge: 'LEGENDARIO',
+    badge: 'Y yo Puedo',
     popular: true,
     benefits: [
       'Todo lo de Guerrero',
-      'Prefijo [Legendario] violeta',
+      'Prefijo [El que Puede Puede] violeta',
       'Partículas épicas',
       'Mascota legendaria',
       'Título personalizable',
@@ -66,15 +66,15 @@ const RANKS: Rank[] = [
   },
   {
     id: 'rank-supremo',
-    name: 'Supremo',
+    name: 'Que Bendición',
     price: 34.99,
     color: '#ffd700',
     glowColor: 'rgba(255, 215, 0, 0.4)',
     icon: Crown,
-    badge: 'SUPREMO',
+    badge: 'Gracias DIOS',
     benefits: [
       'Todo lo de Legendario',
-      'Prefijo [Supremo] dorado',
+      'Prefijo [Que Bendición] dorado',
       'Kit Supremo mensual',
       'Mascota mítica',
       'Nombre en el servidor',
@@ -82,15 +82,15 @@ const RANKS: Rank[] = [
   },
   {
     id: 'rank-eterno',
-    name: 'Eterno',
+    name: 'Que Trabajen los Jodid##',
     price: 49.99,
     color: '#ff4444',
     glowColor: 'rgba(255, 68, 68, 0.4)',
     icon: Sparkles,
-    badge: 'ETERNO',
+    badge: 'J0de##',
     benefits: [
       'Todo lo de Supremo',
-      'Prefijo [Eterno] rojo',
+      'Prefijo [Que Trabajen los Jodidos] rojo',
       'Kit Eterno semanal',
       'Efecto especial único',
     ],
@@ -118,7 +118,7 @@ const ACC_CATEGORIES = ['Extención de Chunks'];
 const INFO_ITEMS = [
   { icon: Shield, label: 'Pago seguro', desc: 'Transacciones protegidas con SSL', color: '#10b981' },
   { icon: Package, label: 'Entrega inmediata', desc: 'Rangos activados en segundos', color: '#3b82f6' },
-  { icon: Tag, label: 'Sin suscripción', desc: 'Pago único, beneficios permanentes', color: '#ffd700' },
+  { icon: Tag, label: 'Suscripción', desc: 'Pago por mes con beneficios variados según el Rango', color: '#ffd700' },
 ];
 
 function RankCard({ rank }: { rank: Rank }) {
@@ -177,7 +177,7 @@ function RankCard({ rank }: { rank: Rank }) {
 
         <div className="mb-5">
           <span className="text-3xl font-orbitron font-bold text-white">${rank.price}</span>
-          <span className="text-sm text-gray-500 ml-1">USD / único pago</span>
+          <span className="text-sm text-gray-500 ml-1">USD / x Mes</span>
         </div>
 
         <ul className="space-y-2 mb-6">
@@ -287,7 +287,7 @@ export default function Rangos() {
             Tienda BolaLand
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto">
-            Potencia tu experiencia con rangos exclusivos y accesorios únicos. Pago único, beneficios permanentes.
+            Potencia tu experiencia con rangos exclusivos y accesorios únicos. Pago por Mes con Beneficios!.
           </p>
         </div>
 
@@ -302,7 +302,7 @@ export default function Rangos() {
           </div>
         </section>
 
-        {/* Accessories - oculto, no eliminar */}
+        
         <section className="">
           <div ref={accTitleRef} className="reveal flex items-center gap-3 mb-6">
             <Sparkles size={22} className="text-violet-400" />

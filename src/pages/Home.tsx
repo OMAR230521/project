@@ -77,7 +77,7 @@ function CtaBanner() {
         </Link>
         <div className="glass rounded-2xl px-6 py-3.5 flex items-center gap-2">
           <Server size={16} className="text-green-400" />
-          <span className="text-sm font-mono text-gray-200">play.bolaland.net</span>
+          <span className="text-sm font-mono text-gray-200">-</span>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ function CtaBanner() {
 
 const FEATURES = [
   { icon: Users, title: 'Comunidad Activa', desc: 'Cientos de jugadores de habla hispana que comparten tu pasión por el survival con mods. Eventos semanales y torneos regulares.', color: '#9333ea' },
-  { icon: Package, title: 'Sistema de Mods', desc: 'Más de 200 mods cuidadosamente seleccionados para ofrecer una experiencia equilibrada y épica sin sacrificar el rendimiento.', color: '#f0b429' },
+  { icon: Package, title: 'Sistema de Mods', desc: 'Más de 140 mods cuidadosamente seleccionados para ofrecer una experiencia equilibrada y épica sin sacrificar el rendimiento.', color: '#f0b429' },
   { icon: Zap, title: 'Eventos Épicos', desc: 'Competencias, hunts y eventos de temporada con recompensas exclusivas. Siempre algo nuevo que descubrir.', color: '#10b981' },
   { icon: Globe, title: 'Optimización Total', desc: 'Servidor de alto rendimiento con configuración optimizada para que tu experiencia sea fluida independientemente de tu PC.', color: '#3b82f6' },
   { icon: Sword, title: 'Experiencia Inmersiva', desc: 'Mundos personalizados, biomas únicos y narrativa épica que te sumergirán en horas de exploración y aventura.', color: '#ec4899' },
@@ -171,8 +171,8 @@ export default function Home() {
       {/* Stats section */}
       <section className="py-16 px-4 relative">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard value="500+" label="Jugadores" icon={Users} />
-          <StatCard value="200+" label="Mods instalados" icon={Package} />
+          <StatCard value="150+" label="Jugadores" icon={Users} />
+          <StatCard value="140+" label="Mods instalados" icon={Package} />
           <StatCard value="99.9%" label="Uptime garantizado" icon={Server} />
           <StatCard value="24/7" label="Soporte activo" icon={Zap} />
         </div>

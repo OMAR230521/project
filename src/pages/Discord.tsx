@@ -3,11 +3,11 @@ import { useReveal } from '../hooks/useReveal';
 
 const CHANNELS = [
   { icon: MessageCircle, name: '#general', desc: 'Chat principal de la comunidad', color: '#9333ea' },
-  { icon: Headphones, name: '#soporte', desc: 'Ayuda y resolución de problemas', color: '#3b82f6' },
+  { icon: Headphones, name: '#captura', desc: 'Capturas hechas durante el Servidor', color: '#3b82f6' },
   { icon: Zap, name: '#eventos', desc: 'Anuncios de eventos y torneos', color: '#f0b429' },
-  { icon: Gift, name: '#sorteos', desc: 'Giveaways y regalos exclusivos', color: '#10b981' },
-  { icon: Star, name: '#rangos', desc: 'Info sobre rangos y beneficios', color: '#c96bff' },
-  { icon: Users, name: '#presentaciones', desc: 'Preséntate a la comunidad', color: '#ec4899' },
+  { icon: Gift, name: '#memes', desc: 'Divertidos memes que se comparten entre la comunidad de BolaLand', color: '#10b981' },
+  { icon: Star, name: '#videos', desc: 'Videos divertidos que se comparten entre la comunidad de BolaLand', color: '#c96bff' },
+  { icon: Users, name: '#sugerencias', desc: 'Sugerencias que ofrece la comunidad para la mejora del servidor', color: '#ec4899' },
 ];
 
 function ChannelCard({ icon: Icon, name, desc, color }: { icon: typeof Users; name: string; desc: string; color: string }) {
@@ -27,8 +27,8 @@ function ChannelCard({ icon: Icon, name, desc, color }: { icon: typeof Users; na
 }
 
 const DISCORD_STATS = [
-  { value: '200+', label: 'Miembros' },
-  { value: '50+', label: 'Online' },
+  { value: '100+', label: 'Miembros' },
+  { value: '30+', label: 'Online' },
   { value: '24/7', label: 'Soporte' },
 ];
 

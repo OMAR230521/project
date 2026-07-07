@@ -55,7 +55,7 @@ export default function ServerSelect() {
 
             <h2 className="section-title font-orbitron font-bold text-2xl mb-2">BolaLand MODS</h2>
 
-            <p className="text-gray-400 text-sm mb-6">200+ mods · Survival épico · Comunidad activa</p>
+            <p className="text-gray-400 text-sm mb-6">140+ mods · Survival épico · Comunidad activa</p>
 
             <Link to="/mods" className="btn-primary px-8 py-3 rounded-2xl w-full justify-center">
               Entrar
