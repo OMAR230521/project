@@ -10,24 +10,24 @@ const corsHeaders = {
 
 // ✅ PRECIOS REALES — el frontend no puede modificar estos valores
 const VALID_PRICES: Record<string, { name: string; price: number }> = {
-  // Mods
-  'rank-aventurero':  { name: 'Rango Aventurero',  price: 2.99  },
-  'rank-guerrero':    { name: 'Rango Guerrero',     price: 5.99  },
-  'rank-legendario':  { name: 'Rango Legendario',   price: 19.99 },
-  'rank-supremo':     { name: 'Rango Supremo',      price: 34.99 },
-  'rank-eterno':      { name: 'Rango Eterno',       price: 49.99 },
-  'acc-particulas-fuego':   { name: '20 Chunks',  price: 2.99 },
-  'acc-particulas-hielo':   { name: '50 Chunks',  price: 6.99 },
-  'acc-particulas-galaxia': { name: '100 Chunks', price: 9.99 },
-  // Vanilla
-  'v-rank-aventurero':  { name: 'Rango Aventurero Vanilla',  price: 2.99  },
-  'v-rank-guerrero':    { name: 'Rango Guerrero Vanilla',     price: 5.99  },
-  'v-rank-legendario':  { name: 'Rango Legendario Vanilla',   price: 19.99 },
-  'v-rank-supremo':     { name: 'Rango Supremo Vanilla',      price: 34.99 },
-  'v-rank-eterno':      { name: 'Rango Eterno Vanilla',       price: 49.99 },
-  'v-acc-particulas-fuego':   { name: '20 Chunks Vanilla',  price: 2.99 },
-  'v-acc-particulas-hielo':   { name: '50 Chunks Vanilla',  price: 6.99 },
-  'v-acc-particulas-galaxia': { name: '100 Chunks Vanilla', price: 9.99 },
+  // Mods — rangos
+  'rank-lord':      { name: 'Rango Lord',      price: 3.99  },
+  'rank-vizconde':  { name: 'Rango Vizconde',  price: 5.99  },
+  'rank-conde':     { name: 'Rango Conde',      price: 9.34 },
+  'rank-alteza':    { name: 'Rango Alteza',     price: 13.59 },
+  // Mods — chunks
+  'acc-chunks-20':  { name: 'Chunks x20',  price: 2.99 },
+  'acc-chunks-50':  { name: 'Chunks x50',  price: 6.99 },
+  'acc-chunks-100': { name: 'Chunks x100', price: 9.99 },
+  // Vanilla — rangos (pendiente de configurar)
+  'v-rank-lord':      { name: 'Rango Lord Vanilla',      price: 3.99  },
+  'v-rank-vizconde':  { name: 'Rango Vizconde Vanilla',  price: 5.99  },
+  'v-rank-conde':     { name: 'Rango Conde Vanilla',      price: 10.99 },
+  'v-rank-alteza':    { name: 'Rango Alteza Vanilla',     price: 13.59 },
+  // Vanilla — chunks
+  'v-acc-chunks-20':  { name: 'Chunks x20 Vanilla',  price: 2.99 },
+  'v-acc-chunks-50':  { name: 'Chunks x50 Vanilla',  price: 6.99 },
+  'v-acc-chunks-100': { name: 'Chunks x100 Vanilla', price: 9.99 },
 };
 
 Deno.serve(async (req: Request) => {

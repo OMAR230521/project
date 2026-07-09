@@ -7,6 +7,7 @@ interface Rank {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   color: string;
   glowColor: string;
   icon: typeof Trophy;
@@ -17,82 +18,96 @@ interface Rank {
 
 const RANKS: Rank[] = [
   {
-    id: 'rank-aventurero',
-    name: 'Dios te Ayude',
-    price: 2.99,
+    id: 'rank-lord',
+    name: 'Lord',
+    price: 3.99,
     color: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: Shield,
-    badge: 'Apiadate de mi',
+    badge: 'Mi Lord',
     benefits: [
-      'Prefijo [Dios te Ayude] verde',
-      'Kit de bienvenida',
-      'Acceso a /fly en lobby',
-      '3 cachondas rikas',
-      'Color en el chat',
+      'Prefijo [Lord] verde',
+      'Acceso a /back',
+      'Set home extendido a 2 homes',
+      '+20 Chunks de extendido',
+      '+64 Monedas de Mercado',
+      '+3 BolaCoins',
+      '+Kit de Caballero',
+      'Acceso garantizado al servidor aunque esté lleno',
+      'Anti AFK — podés estar AFK sin que te expulse el servidor',
     ],
   },
   {
-    id: 'rank-guerrero',
-    name: 'Que Agusticidad',
+    id: 'rank-vizconde',
+    name: 'Vizconde',
     price: 5.99,
     color: '#3b82f6',
     glowColor: 'rgba(59, 130, 246, 0.3)',
     icon: Sword,
-    badge: 'Agusto?',
+    badge: 'Mi Señor',
     benefits: [
-      'Todo lo de zorra vas a tener',
-      'Prefijo de [Que Agusticidad] azulada',
-      'Acceso a arena PvP VIP',
-      'Mascota básica',
+      'Todo lo que tiene el rango [Lord]',
+      'Prefijo [Vizconde] Azulado',
+      'Ampliación de +50 Chunks en vez de +20',
+      'Ampliación de set home a 3 en vez de 2',
+      'Acceso a /anvil — Abre un yunque virtual',
+      '+128 Monedas de Mercado',
+      '+6 BolaCoins',
+      '+3 Bola Gold',
+      '+Kit de Vizconde',
     ],
   },
   {
-    id: 'rank-legendario',
-    name: 'El que Puede Puede',
-    price: 19.99,
+    id: 'rank-conde',
+    name: 'Conde',
+    price: 9.34,
+    originalPrice: 10.99,
     color: '#c96bff',
     glowColor: 'rgba(201, 107, 255, 0.4)',
     icon: Star,
-    badge: 'Y yo Puedo',
+    badge: 'Su Excelencia',
     popular: true,
     benefits: [
-      'Todo lo de Guerrero',
-      'Prefijo [El que Puede Puede] violeta',
-      'Partículas épicas',
-      'Mascota legendaria',
-      'Título personalizable',
+      'Todo lo que tiene el rango [Vizconde]',
+      'Prefijo [Conde] Violeta',
+      'Ampliación de +75 Chunks en vez de +50',
+      'Ampliación de set home a 4 en vez de 3',
+      'Acceso a /fly — Volar donde se te antoje',
+      'Acceso a /feed — Rellenado de comida',
+      '+192 Monedas de Mercado',
+      '+9 BolaCoins',
+      '+3 Bola Gold',
+      '+5 BoDolar',
+      '+1 Diamante refinado',
+      '+Kit de Conde',
+      'Acceso a Personalización de Chat (Colores)',
+      'Eliminación de Cooldown al /tp — TP ultra rápido',
     ],
   },
   {
-    id: 'rank-supremo',
-    name: 'Que Bendición',
-    price: 34.99,
+    id: 'rank-alteza',
+    name: 'Alteza',
+    price: 13.59,
+    originalPrice: 15.99,
     color: '#ffd700',
     glowColor: 'rgba(255, 215, 0, 0.4)',
     icon: Crown,
-    badge: 'Gracias DIOS',
+    badge: 'Su Alteza',
     benefits: [
-      'Todo lo de Legendario',
-      'Prefijo [Que Bendición] dorado',
-      'Kit Supremo mensual',
-      'Mascota mítica',
-      'Nombre en el servidor',
-    ],
-  },
-  {
-    id: 'rank-eterno',
-    name: 'Que Trabajen los Jodid##',
-    price: 49.99,
-    color: '#ff4444',
-    glowColor: 'rgba(255, 68, 68, 0.4)',
-    icon: Sparkles,
-    badge: 'J0de##',
-    benefits: [
-      'Todo lo de Supremo',
-      'Prefijo [Que Trabajen los Jodidos] rojo',
-      'Kit Eterno semanal',
-      'Efecto especial único',
+      'Todo lo que tiene el rango [Conde]',
+      'Prefijo [Alteza] Dorado',
+      'Ampliación de +150 Chunks en vez de +75',
+      'Ampliación de set home a 5 en vez de 4',
+      'Acceso a /heal — Llenado de toda la vida',
+      'Acceso a /enderchest — Acceso rápido a tu cofre de ender',
+      'Acceso a /repair — Reparación completa de armadura y herramientas',
+      'Acceso a /nickname — Cambiá tu nombre en el chat con colores',
+      '+256 Monedas de Mercado',
+      '+12 BolaCoins',
+      '+6 Bola Gold',
+      '+10 BoDolar',
+      '+5 Diamantes Refinados',
+      '+Kit de Alteza',
     ],
   },
 ];
@@ -107,18 +122,15 @@ interface Accessory {
 }
 
 const ACCESSORIES: Accessory[] = [
-  { id: 'acc-particulas-fuego', name: 'Chunk ', price: 2.99, category: 'Extención de Chunks', desc: '20 Chunks', icon: ' 🏠' },
-  { id: 'acc-particulas-hielo', name: 'Chunk', price: 6.99, category: 'Extención de Chunks', desc: '50 Chunks', icon: ' 🏠' },
-  { id: 'acc-particulas-galaxia', name: 'Chunks', price: 9.99, category: 'Extención de Chunks', desc: '100 Chunks', icon: ' 🏠' },
-  
+  { id: 'acc-chunks-20', name: 'Chunks x20', price: 2.99, category: 'Extensión de Chunks', desc: '+20 Chunks para tu base', icon: '🏠' },
+  { id: 'acc-chunks-50', name: 'Chunks x50', price: 6.99, category: 'Extensión de Chunks', desc: '+50 Chunks para tu base', icon: '🏠' },
+  { id: 'acc-chunks-100', name: 'Chunks x100', price: 9.99, category: 'Extensión de Chunks', desc: '+100 Chunks para tu base', icon: '🏠' },
 ];
-
-const ACC_CATEGORIES = ['Extención de Chunks'];
 
 const INFO_ITEMS = [
   { icon: Shield, label: 'Pago seguro', desc: 'Transacciones protegidas con SSL', color: '#10b981' },
   { icon: Package, label: 'Entrega inmediata', desc: 'Rangos activados en segundos', color: '#3b82f6' },
-  { icon: Tag, label: 'Suscripción', desc: 'Pago por mes con beneficios variados según el Rango', color: '#ffd700' },
+  { icon: Tag, label: 'Suscripción mensual', desc: 'Pago por mes con beneficios variados según el Rango', color: '#ffd700' },
 ];
 
 function RankCard({ rank }: { rank: Rank }) {
@@ -176,6 +188,15 @@ function RankCard({ rank }: { rank: Rank }) {
         </h3>
 
         <div className="mb-5">
+          {rank.originalPrice && (
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-sm text-gray-500 line-through">${rank.originalPrice}</span>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(255,68,68,0.15)', color: '#ff6b6b', border: '1px solid rgba(255,68,68,0.3)' }}>
+                -15%
+              </span>
+            </div>
+          )}
           <span className="text-3xl font-orbitron font-bold text-white">${rank.price}</span>
           <span className="text-sm text-gray-500 ml-1">USD / x Mes</span>
         </div>
@@ -263,12 +284,9 @@ function InfoCard({ item }: { item: typeof INFO_ITEMS[0] }) {
 }
 
 export default function Rangos() {
-  const [activeCategory, setActiveCategory] = useState('Extención de Chunks');
   const heroRef = useReveal();
   const ranksTitleRef = useReveal();
   const accTitleRef = useReveal();
-
-  const filteredAcc = ACCESSORIES.filter(a => a.category === activeCategory);
 
   return (
     <div className="pt-24 pb-20 px-4">
@@ -287,7 +305,7 @@ export default function Rangos() {
             Tienda BolaLand
           </h1>
           <p className="text-gray-300 text-lg max-w-lg mx-auto">
-            Potencia tu experiencia con rangos exclusivos y accesorios únicos. Pago por Mes con Beneficios!.
+            Potencia tu experiencia con rangos exclusivos. Pago mensual con beneficios únicos.
           </p>
         </div>
 
@@ -302,17 +320,14 @@ export default function Rangos() {
           </div>
         </section>
 
-        
+        {/* Chunks */}
         <section className="">
           <div ref={accTitleRef} className="reveal flex items-center gap-3 mb-6">
             <Sparkles size={22} className="text-violet-400" />
-            <h2 className="section-title font-orbitron text-2xl">Extención de Chunks</h2>
+            <h2 className="section-title font-orbitron text-2xl">Extensión de Chunks</h2>
           </div>
-
-          
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {filteredAcc.map(acc => <AccessoryCard key={acc.id} acc={acc} />)}
+            {ACCESSORIES.map(acc => <AccessoryCard key={acc.id} acc={acc} />)}
           </div>
         </section>
 
