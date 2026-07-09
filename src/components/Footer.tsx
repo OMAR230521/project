@@ -1,15 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 
-const LINKS = [
-  { label: 'Servidores', path: '/' },
-  { label: 'Discord', path: '/discord' },
-  { label: 'Modpack', path: '/modpack' },
-  { label: 'Rangos', path: '/rangos' },
-  { label: 'Nosotros', path: '/nosotros' },
-];
-
 export default function Footer() {
+  const location = useLocation();
+  const isVanilla = location.pathname.startsWith('/vanilla');
+
+  const LINKS = isVanilla
+    ? [
+        { label: 'Servidores', path: '/' },
+        { label: 'Discord', path: '/vanilla/discord' },
+        { label: 'Rangos', path: '/vanilla/ranks' },
+        { label: 'Nosotros', path: '/vanilla/about' },
+      ]
+    : [
+        { label: 'Servidores', path: '/' },
+        { label: 'Discord', path: '/discord' },
+        { label: 'Modpack', path: '/modpack' },
+        { label: 'Rangos', path: '/rangos' },
+        { label: 'Nosotros', path: '/nosotros' },
+      ];
+
   return (
     <footer className="relative mt-20 border-t border-violet-900/20">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
