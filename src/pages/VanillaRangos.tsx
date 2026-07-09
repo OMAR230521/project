@@ -307,10 +307,32 @@ export default function VanillaRangos() {
 
         {/* Ranks */}
         <section className="mb-20">
-          <div ref={ranksTitleRef} className="reveal flex items-center gap-3 mb-8">
+          <div ref={ranksTitleRef} className="reveal flex items-center gap-3 mb-4">
             <Crown size={22} style={{ color: '#22c55e' }} />
             <h2 className="section-title font-orbitron text-2xl">Rangos</h2>
           </div>
+
+          {/* Aviso de duración 30 días */}
+          <div className="reveal mb-6">
+            <div
+              className="rounded-xl px-5 py-3 text-sm flex items-start gap-3"
+              style={{
+                background: 'rgba(34, 197, 94, 0.06)',
+                border: '1px solid rgba(34, 197, 94, 0.2)',
+              }}
+            >
+              <svg className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div className="text-gray-300 leading-relaxed">
+                <span className="font-semibold" style={{ color: '#22c55e' }}>Duración de 30 días.</span>{' '}
+                Cada rango tiene una validez de 30 días desde su compra. Pasado ese período, se eliminarán todas las bonificaciones del rango,{' '}
+                <span className="text-gray-200">excepto los items materiales</span> como kits y economía del servidor (monedas, BolaCoins, BolaGold, BoDólares, diamantes refinados) que ya hayas recibido.{' '}
+                <span className="text-gray-400">Renová tu rango cada mes para mantener los beneficios.</span>
+              </div>
+            </div>
+          </div>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ paddingTop: '16px' }}>
             {RANKS.map(rank => <RankCard key={rank.id} rank={rank} />)}
           </div>
