@@ -208,7 +208,7 @@ export default function Modpack() {
            </a>
             <div className="glass rounded-2xl px-6 py-3 flex items-center gap-2">
               <Wifi size={14} className="text-green-400" />
-              <span className="text-sm font-mono text-gray-200">-</span>
+              <span className="text-sm font-mono text-gray-200">play.bolaland.net</span>
             </div>
           </div>
         </div>

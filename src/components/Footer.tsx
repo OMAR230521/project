@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, MessageCircle, Sword } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 const LINKS = [
   { label: 'Servidores', path: '/' },
