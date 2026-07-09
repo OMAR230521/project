@@ -286,6 +286,7 @@ function InfoCard({ item }: { item: typeof INFO_ITEMS[0] }) {
 export default function Rangos() {
   const heroRef = useReveal();
   const ranksTitleRef = useReveal();
+  const durationRef = useReveal();
   const accTitleRef = useReveal();
 
   return (
@@ -317,7 +318,7 @@ export default function Rangos() {
           </div>
 
           {/* Aviso de duración 30 días */}
-          <div className="reveal mb-6">
+          <div ref={durationRef} className="reveal mb-6">
             <div
               className="rounded-xl px-5 py-3 text-sm flex items-start gap-3"
               style={{
