@@ -314,12 +314,11 @@ export default function VanillaRangos() {
           </div>
 
           {/* Aviso de duración 30 días */}
-          <div ref={durationRef} className="reveal mb-6">
+          <div ref={durationRef} className="reveal mb-8">
             <div
-              className="rounded-xl px-5 py-3 text-sm flex items-start gap-3"
+              className="rounded-xl px-5 py-4 text-sm flex items-start gap-3 glass"
               style={{
-                background: 'rgba(34, 197, 94, 0.06)',
-                border: '1px solid rgba(34, 197, 94, 0.2)',
+                borderColor: 'rgba(34, 197, 94, 0.2)',
               }}
             >
               <svg className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -334,7 +333,7 @@ export default function VanillaRangos() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ paddingTop: '16px' }}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {RANKS.map(rank => <RankCard key={rank.id} rank={rank} />)}
           </div>
         </section>
