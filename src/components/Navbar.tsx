@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ShoppingCart, X, Menu, Home } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -18,13 +18,40 @@ const NAV_LINKS_HOME = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const location = useLocation();
   const { totalItems, toggleCart } = useCart();
+  const navRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
 
   const isHome = location.pathname === '/';
   const NAV_LINKS = isHome ? NAV_LINKS_HOME : NAV_LINKS_MODS;
 
   const isActivePath = (path: string) => location.pathname === path;
+
+  const updateIndicator = useCallback(() => {
+    const activeIndex = NAV_LINKS.findIndex(link => isActivePath(link.path));
+    if (activeIndex === -1 || !navRef.current) {
+      setIndicatorStyle(prev => ({ ...prev, opacity: 0 }));
+      return;
+    }
+
+    const links = navRef.current.querySelectorAll<HTMLAnchorElement>('a');
+    const activeLink = links[activeIndex];
+    if (!activeLink) {
+      setIndicatorStyle(prev => ({ ...prev, opacity: 0 }));
+      return;
+    }
+
+    const navRect = navRef.current.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+
+    setIndicatorStyle({
+      left: linkRect.left - navRect.left,
+      width: linkRect.width,
+      opacity: 1,
+    });
+  }, [NAV_LINKS, location.pathname]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -38,6 +65,19 @@ export default function Navbar() {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
+
+  // Actualizar indicador al cambiar de ruta o después de render
+  useEffect(() => {
+    // Pequeño timeout para asegurar que los elementos están renderizados
+    const timer = setTimeout(updateIndicator, 50);
+    return () => clearTimeout(timer);
+  }, [location.pathname, updateIndicator]);
+
+  // Recalcular en resize
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [updateIndicator]);
 
   return (
     <>
@@ -80,28 +120,48 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop nav — centrado */}
-            <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-              {NAV_LINKS.map(link => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  end
-                  className={({ isActive }) =>
-                    `relative px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
-                      isActive ? 'text-violet-300' : 'text-gray-300 hover:text-violet-300'
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && <span className="absolute inset-0 rounded-lg bg-violet-500/10 border border-violet-500/20" />}
-                      <span className="relative">{link.label}</span>
-                      {isActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400" />}
-                    </>
-                  )}
-                </NavLink>
-              ))}
+            {/* Desktop nav — centrado con indicador deslizante */}
+            <div className="hidden md:flex items-center absolute left-1/2 -translate-x-1/2">
+              <div ref={navRef} className="relative flex items-center gap-1">
+                {/* Indicador deslizante */}
+                <div
+                  className="absolute rounded-lg transition-all duration-400 ease-out pointer-events-none"
+                  style={{
+                    left: indicatorStyle.left,
+                    width: indicatorStyle.width,
+                    height: '36px',
+                    top: '2px',
+                    opacity: indicatorStyle.opacity,
+                    background: 'rgba(147, 51, 234, 0.12)',
+                    border: '1px solid rgba(179, 71, 255, 0.25)',
+                    boxShadow: '0 0 20px rgba(147, 51, 234, 0.1)',
+                  }}
+                />
+                {NAV_LINKS.map(link => (
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    end
+                    ref={(el) => {
+                      if (el) linkRefs.current.set(link.path, el);
+                    }}
+                    className={({ isActive }) =>
+                      `relative px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 z-10 ${
+                        isActive ? 'text-violet-300' : 'text-gray-300 hover:text-violet-300'
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span className="relative">{link.label}</span>
+                        {isActive && (
+                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400" />
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
             </div>
 
             {/* Right side */}
