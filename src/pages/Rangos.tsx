@@ -20,7 +20,7 @@ const RANKS: Rank[] = [
   {
     id: 'rank-lord',
     name: 'Lord',
-    price: 3.99,
+    price: 0.60,
     color: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: Shield,

@@ -11,7 +11,7 @@ const corsHeaders = {
 // ✅ PRECIOS REALES — el frontend no puede modificar estos valores
 const VALID_PRICES: Record<string, { name: string; price: number }> = {
   // Mods — rangos
-  'rank-lord':      { name: 'Rango Lord',      price: 3.99  },
+  'rank-lord':      { name: 'Rango Lord',      price: 0.60  },
   'rank-vizconde':  { name: 'Rango Vizconde',  price: 5.99  },
   'rank-conde':     { name: 'Rango Conde',      price: 9.34 },
   'rank-alteza':    { name: 'Rango Alteza',     price: 13.59 },
