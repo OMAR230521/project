@@ -10,10 +10,10 @@ const corsHeaders = {
 
 // ✅ Mapeo de IDs de productos a comandos de Minecraft
 const RANK_COMMANDS: Record<string, string> = {
-  'rank-lord':     'lp user {nick} parent set lord-tier2',
-  'rank-vizconde': 'lp user {nick} parent set vizconde-tier3',
-  'rank-conde':    'lp user {nick} parent set conde-tier4',
-  'rank-alteza':   'lp user {nick} parent set alteza-tier5',
+  'rank-lord':     'lp user {nick} parent addtemp lord-tier2 30d',
+  'rank-vizconde': 'lp user {nick} parent addtemp vizconde-tier3 30d',
+  'rank-conde':    'lp user {nick} parent addtemp conde-tier4 30d',
+  'rank-alteza':   'lp user {nick} parent addtemp alteza-tier5 30d',
 };
 
 const CHUNK_COMMANDS: Record<string, string> = {
