@@ -121,7 +121,7 @@ export default function Modpack() {
 
           <div className="flex flex-wrap justify-center gap-4">
           <a
-             href="https://www.curseforge.com/minecraft/share/T1L8E88D"
+             href="https://www.curseforge.com/minecraft/modpacks/bolaland"
              target="_blank"
              rel="noopener noreferrer"
              className="btn-primary px-8 py-3.5 rounded-2xl text-base flex items-center gap-2"
