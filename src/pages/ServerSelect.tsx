@@ -1,10 +1,24 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Clock } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
+
+// 🔒 FLAG TEMPORAL — poné esto en `false` cuando el server Vanilla esté listo
+// para volver a habilitar el acceso normal con el Link.
+const VANILLA_COMING_SOON = true;
 
 export default function ServerSelect() {
   const ref = useReveal();
   const ref2 = useReveal();
+  const [showComingSoon, setShowComingSoon] = useState(false);
+
+  const handleVanillaClick = (e: React.MouseEvent) => {
+    if (VANILLA_COMING_SOON) {
+      e.preventDefault();
+      setShowComingSoon(true);
+      setTimeout(() => setShowComingSoon(false), 5000);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
@@ -25,6 +39,23 @@ export default function ServerSelect() {
           />
         ))}
       </div>
+
+      {/* 🔒 CARTEL "PRÓXIMAMENTE" — borrar este bloque completo cuando Vanilla esté listo */}
+      {showComingSoon && (
+        <div
+          className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-2xl flex items-center gap-3 glass"
+          style={{
+            border: '1px solid rgba(34, 197, 94, 0.4)',
+            boxShadow: '0 8px 30px rgba(34, 197, 94, 0.25)',
+            animation: 'fadeInDown 0.3s ease-out',
+          }}
+        >
+          <Clock size={20} style={{ color: '#86efac' }} />
+          <span className="text-white font-semibold text-sm">
+            Próximamente será habilitado
+          </span>
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-10 pt-24 pb-16 w-full px-4 flex flex-col items-center">
@@ -90,7 +121,10 @@ export default function ServerSelect() {
 
             <p className="text-gray-400 text-sm mb-6">Survival puro · Sin mods · La experiencia clásica</p>
 
-            <Link to="/vanilla" className="w-full justify-center inline-flex items-center gap-2 px-8 py-3 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300"
+            <Link
+              to="/vanilla"
+              onClick={handleVanillaClick}
+              className="w-full justify-center inline-flex items-center gap-2 px-8 py-3 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300"
               style={{
                 background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
                 color: '#fff',

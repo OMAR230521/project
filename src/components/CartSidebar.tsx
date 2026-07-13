@@ -3,6 +3,10 @@ import { X, Minus, Plus, Trash2, ShoppingBag, User, AlertTriangle, Loader2 } fro
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabase';
 
+// 🔒 Misma categoría que en CartContext.tsx — se usa para saber
+// cuándo ocultar los botones +/- (rangos no llevan selector de cantidad)
+const RANK_CATEGORY = 'Rango';
+
 export default function CartSidebar() {
   const { items, isOpen, setCartOpen, removeItem, updateQty, clearCart, totalPrice } = useCart();
   const [step, setStep] = useState<'cart' | 'nickname' | 'payment'>('cart');
@@ -95,60 +99,66 @@ export default function CartSidebar() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {items.map(item => (
-                    <div key={item.id} className="glass rounded-xl p-3 flex gap-3">
-                      <div className="flex-1 min-w-0">
-                        {item.badge && (
-                          <span className="text-xs px-1.5 py-0.5 rounded font-medium mb-1 inline-block"
+                  {items.map(item => {
+                    const isRank = item.category === RANK_CATEGORY;
+                    return (
+                      <div key={item.id} className="glass rounded-xl p-3 flex gap-3">
+                        <div className="flex-1 min-w-0">
+                          {item.badge && (
+                            <span className="text-xs px-1.5 py-0.5 rounded font-medium mb-1 inline-block"
+                              style={{
+                                background: 'rgba(147, 51, 234, 0.2)',
+                                color: '#c96bff',
+                                border: '1px solid rgba(179, 71, 255, 0.25)',
+                              }}>
+                              {item.badge}
+                            </span>
+                          )}
+                          <p className="text-sm font-medium text-white truncate">{item.name}</p>
+                          <p className="text-xs text-gray-400">{item.category}</p>
+                          {item.server && (
+                            <span className="text-xs px-1.5 py-0.5 rounded font-medium mt-1 inline-block"
+                              style={{
+                                background: item.server === 'Vanilla' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(147, 51, 234, 0.15)',
+                                color: item.server === 'Vanilla' ? '#86efac' : '#c96bff',
+                                border: item.server === 'Vanilla' ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(179, 71, 255, 0.3)',
+                              }}>
+                              {item.server === 'Vanilla' ? '🌿 Vanilla' : '⚡ Mods'}
+                            </span>
+                          )}
+                          <p className="text-sm font-bold mt-1 text-gradient-gold"
                             style={{
-                              background: 'rgba(147, 51, 234, 0.2)',
-                              color: '#c96bff',
-                              border: '1px solid rgba(179, 71, 255, 0.25)',
+                              background: 'linear-gradient(135deg, #ffe44d, #f0b429)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
                             }}>
-                            {item.badge}
-                          </span>
-                        )}
-                        <p className="text-sm font-medium text-white truncate">{item.name}</p>
-                        <p className="text-xs text-gray-400">{item.category}</p>
-                        {item.server && (
-                          <span className="text-xs px-1.5 py-0.5 rounded font-medium mt-1 inline-block"
-                            style={{
-                              background: item.server === 'Vanilla' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(147, 51, 234, 0.15)',
-                              color: item.server === 'Vanilla' ? '#86efac' : '#c96bff',
-                              border: item.server === 'Vanilla' ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(179, 71, 255, 0.3)',
-                            }}>
-                            {item.server === 'Vanilla' ? '🌿 Vanilla' : '⚡ Mods'}
-                          </span>
-                        )}
-                        <p className="text-sm font-bold mt-1 text-gradient-gold"
-                          style={{
-                            background: 'linear-gradient(135deg, #ffe44d, #f0b429)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                          }}>
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </p>
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <button onClick={() => removeItem(item.id)}
-                          className="text-gray-600 hover:text-red-400 transition-colors">
-                          <Trash2 size={14} />
-                        </button>
-                        <div className="flex items-center gap-1.5">
-                          <button onClick={() => updateQty(item.id, item.quantity - 1)}
-                            className="w-6 h-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 transition-all">
-                            <Minus size={10} />
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <button onClick={() => removeItem(item.id)}
+                            className="text-gray-600 hover:text-red-400 transition-colors">
+                            <Trash2 size={14} />
                           </button>
-                          <span className="w-5 text-center text-xs font-semibold text-white">{item.quantity}</span>
-                          <button onClick={() => updateQty(item.id, item.quantity + 1)}
-                            className="w-6 h-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 transition-all">
-                            <Plus size={10} />
-                          </button>
+                          {/* 🔒 Los rangos no llevan selector de cantidad — siempre es 1 */}
+                          {!isRank && (
+                            <div className="flex items-center gap-1.5">
+                              <button onClick={() => updateQty(item.id, item.quantity - 1)}
+                                className="w-6 h-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 transition-all">
+                                <Minus size={10} />
+                              </button>
+                              <span className="w-5 text-center text-xs font-semibold text-white">{item.quantity}</span>
+                              <button onClick={() => updateQty(item.id, item.quantity + 1)}
+                                className="w-6 h-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 transition-all">
+                                <Plus size={10} />
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </>

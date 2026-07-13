@@ -1,7 +1,17 @@
+import { useEffect } from 'react';
 import { CheckCircle2, Home, ArrowRight, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function PagoRealizado() {
+  const { clearCart } = useCart();
+
+  // 🔒 Esta página solo se muestra cuando Stripe redirige acá tras un pago
+  // exitoso, así que es el momento correcto y seguro para vaciar el carrito.
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-16">
       <div className="max-w-lg w-full text-center">

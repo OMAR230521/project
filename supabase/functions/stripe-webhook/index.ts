@@ -22,24 +22,40 @@ const CHUNK_COMMANDS: Record<string, string> = {
   'acc-chunks-100': 'ftbchunks admin extra_claim_chunks {nick} add 100',
 };
 
-// ✅ Función para enviar comando via RCON
+// ✅ Función para enviar comando via RCON (CON DEBUG Y VALIDACIÓN DE AUTH)
 async function sendRconCommand(command: string): Promise<boolean> {
   const rconHost = Deno.env.get("RCON_HOST") || "144.217.199.1";
   const rconPort = parseInt(Deno.env.get("RCON_PORT") || "25575");
   const rconPassword = Deno.env.get("RCON_PASSWORD") || "";
 
+  console.log(`RCON DEBUG - intentando conectar a ${rconHost}:${rconPort}`);
+  console.log(`RCON DEBUG - password length: ${rconPassword.length}`);
+
   try {
     const conn = await Deno.connect({ hostname: rconHost, port: rconPort });
+    console.log("RCON DEBUG - conexión TCP establecida");
 
-    // RCON Auth packet
+    // RCON Auth packet (id=1, type=3)
     const authPayload = encodeRconPacket(1, 3, rconPassword);
     await conn.write(authPayload);
-    await readRconResponse(conn);
 
-    // RCON Command packet
+    const authResponse = await readRconResponse(conn);
+    console.log(`RCON DEBUG - auth response id: ${authResponse.id}`);
+
+    if (authResponse.id === -1) {
+      console.error("RCON ERROR - autenticación RECHAZADA. La contraseña RCON_PASSWORD no coincide con la del servidor.");
+      conn.close();
+      return false;
+    }
+
+    console.log("RCON DEBUG - autenticación EXITOSA");
+
+    // RCON Command packet (id=2, type=2)
     const cmdPayload = encodeRconPacket(2, 2, command);
     await conn.write(cmdPayload);
-    await readRconResponse(conn);
+
+    const cmdResponse = await readRconResponse(conn);
+    console.log(`RCON DEBUG - respuesta del comando: "${cmdResponse.body}"`);
 
     conn.close();
     console.log(`RCON comando enviado: ${command}`);
@@ -65,9 +81,21 @@ function encodeRconPacket(id: number, type: number, body: string): Uint8Array {
   return new Uint8Array(buffer);
 }
 
-async function readRconResponse(conn: Deno.TcpConn): Promise<void> {
+// ✅ Ahora SÍ parsea la respuesta: devuelve el id y el body como texto
+async function readRconResponse(conn: Deno.TcpConn): Promise<{ id: number; body: string }> {
   const buf = new Uint8Array(4096);
-  await conn.read(buf);
+  const n = await conn.read(buf);
+
+  if (!n || n < 12) {
+    return { id: -1, body: "" };
+  }
+
+  const view = new DataView(buf.buffer, 0, n);
+  const id = view.getInt32(4, true);
+  const bodyBytes = buf.slice(12, n - 2);
+  const body = new TextDecoder().decode(bodyBytes);
+
+  return { id, body };
 }
 
 // ✅ Discord webhook notification

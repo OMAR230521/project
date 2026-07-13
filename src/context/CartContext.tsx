@@ -23,11 +23,21 @@ type CartAction =
   | { type: 'TOGGLE_CART' }
   | { type: 'SET_OPEN'; open: boolean };
 
+// 🔒 Categoría que se considera "rango" — solo puede haber UNO en el carrito a la vez
+const RANK_CATEGORY = 'Rango';
+
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'ADD_ITEM': {
       const existing = state.items.find(i => i.id === action.item.id);
+
+      // Ya está exactamente el mismo item en el carrito
       if (existing) {
+        // Los rangos no suman cantidad (quedan fijos en 1)
+        if (existing.category === RANK_CATEGORY) {
+          return state;
+        }
+        // Los accesorios (chunks, etc.) sí suman
         return {
           ...state,
           items: state.items.map(i =>
@@ -35,6 +45,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           ),
         };
       }
+
+      // Si el item nuevo es un RANGO, sacamos cualquier otro rango que ya
+      // estuviera en el carrito antes de agregar el nuevo (reemplazo, no suma)
+      if (action.item.category === RANK_CATEGORY) {
+        const withoutOtherRanks = state.items.filter(i => i.category !== RANK_CATEGORY);
+        return { ...state, items: [...withoutOtherRanks, { ...action.item, quantity: 1 }] };
+      }
+
+      // Accesorio nuevo, se agrega normal
       return { ...state, items: [...state.items, { ...action.item, quantity: 1 }] };
     }
     case 'REMOVE_ITEM':
