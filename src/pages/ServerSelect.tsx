@@ -4,7 +4,7 @@ import { ChevronRight, Clock } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 
 // 🔒 FLAG TEMPORAL — poné esto en `false` cuando el server Vanilla esté listo
-// para volver a habilitar el acceso normal con el Link.
+
 const VANILLA_COMING_SOON = true;
 
 export default function ServerSelect() {

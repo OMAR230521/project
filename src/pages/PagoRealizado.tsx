@@ -7,7 +7,7 @@ export default function PagoRealizado() {
   const { clearCart } = useCart();
 
   // 🔒 Esta página solo se muestra cuando Stripe redirige acá tras un pago
-  // exitoso, así que es el momento correcto y seguro para vaciar el carrito.
+  // exitoso
   useEffect(() => {
     clearCart();
   }, [clearCart]);
