@@ -20,7 +20,7 @@ const RANKS: Rank[] = [
   {
     id: 'rank-lord',
     name: 'Lord',
-    price: 3.99,
+    price: 0.60,
     color: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: Shield,
@@ -288,6 +288,7 @@ export default function Rangos() {
   const ranksTitleRef = useReveal();
   const durationRef = useReveal();
   const accTitleRef = useReveal();
+  const onlineWarningRef = useReveal();
 
   return (
     <div className="pt-24 pb-20 px-4">
@@ -348,6 +349,26 @@ export default function Rangos() {
             <Sparkles size={22} className="text-violet-400" />
             <h2 className="section-title font-orbitron text-2xl">Extensión de Chunks</h2>
           </div>
+
+          {/* 🔒 Aviso: hay que estar conectado al server para recibir los chunks */}
+          <div ref={onlineWarningRef} className="reveal mb-6">
+            <div
+              className="rounded-xl px-5 py-4 text-sm flex items-start gap-3 glass"
+              style={{
+                borderColor: 'rgba(255, 165, 0, 0.25)',
+              }}
+            >
+              <svg className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#ffa500' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-8.99-3h.008v.008h-.008V9z" />
+              </svg>
+              <div className="text-gray-300 leading-relaxed">
+                <span className="font-semibold" style={{ color: '#ffa500' }}>Importante:</span>{' '}
+                Para recibir tus Chunks de forma inmediata, <span className="text-gray-200">debés estar conectado al servidor en el momento de realizar la compra.</span>{' '}
+                <span className="text-gray-400">Si no estás en línea, la entrega automática puede fallar y vas a necesitar contactar a soporte para que te lo asignen manualmente.</span>
+              </div>
+            </div>
+          </div>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {ACCESSORIES.map(acc => <AccessoryCard key={acc.id} acc={acc} />)}
           </div>
