@@ -1,24 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { X, Minus, Plus, Trash2, ShoppingBag, User, AlertTriangle, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabase';
 
 const RANK_CATEGORY = 'Rango';
-
-declare global {
-  interface Window {
-    ConektaCheckoutComponents: {
-      Integration: new (config: {
-        targetIFrame: string;
-        allowTokenization: boolean;
-        publicKey: string;
-        locale: string;
-        onGetInfoSuccess: (data: { token_id: string }) => void;
-        onGetInfoError: (error: unknown) => void;
-      }) => { mount: () => void };
-    };
-  }
-}
 
 export default function CartSidebar() {
   const { items, isOpen, setCartOpen, removeItem, updateQty, clearCart, totalPrice } = useCart();
@@ -27,55 +12,6 @@ export default function CartSidebar() {
   const [nickError, setNickError] = useState('');
   const [loading, setLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
-  const [conektaReady, setConektaReady] = useState(false);
-
-  // Cargar script de Conekta cuando se llega al paso de pago
-  useEffect(() => {
-    if (step !== 'payment') return;
-
-    const existingScript = document.getElementById('conekta-script');
-    if (existingScript) {
-      setConektaReady(true);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'conekta-script';
-    script.src = 'https://pay.conekta.com/v1.0/js/ckpayment.js';
-    script.async = true;
-    script.onload = () => {
-      setConektaReady(true);
-    };
-    document.body.appendChild(script);
-  }, [step]);
-
-  // Montar el componente de Conekta cuando el script esté listo
-  useEffect(() => {
-    if (!conektaReady || step !== 'payment') return;
-
-    const publicKey = import.meta.env.VITE_CONEKTA_PUBLIC_KEY;
-    if (!publicKey || !window.ConektaCheckoutComponents) return;
-
-    try {
-      const checkout = new window.ConektaCheckoutComponents.Integration({
-        targetIFrame: 'conekta-iframe',
-        allowTokenization: true,
-        publicKey,
-        locale: 'es',
-        onGetInfoSuccess: async (data) => {
-          await handleCheckout(data.token_id);
-        },
-        onGetInfoError: (error) => {
-          console.error('Conekta error:', error);
-          setCheckoutError('Error al procesar la tarjeta. Verificá los datos.');
-          setLoading(false);
-        },
-      });
-      checkout.mount();
-    } catch (err) {
-      console.error('Error montando Conekta:', err);
-    }
-  }, [conektaReady, step]);
 
   const validateNick = (value: string) => {
     if (!value.trim()) return 'El NickName es obligatorio.';
@@ -90,7 +26,7 @@ export default function CartSidebar() {
     setStep('payment');
   };
 
-  const handleCheckout = async (token_id: string) => {
+  const handleCheckout = async () => {
     setLoading(true);
     setCheckoutError('');
     try {
@@ -106,19 +42,14 @@ export default function CartSidebar() {
           })),
           minecraft_nick: nick.trim(),
           payment_method: 'conekta',
-          token_id,
         },
       });
 
-      if (error || !data?.success) {
-        throw new Error(error?.message || data?.error || 'Error al procesar el pago');
+      if (error || !data?.url) {
+        throw new Error(error?.message || data?.error || 'Error al crear sesión de pago');
       }
 
-      // Pago exitoso
-      clearCart();
-      setCartOpen(false);
-      setStep('cart');
-      window.location.href = '/pago-realizado';
+      window.location.href = data.url;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error desconocido';
       setCheckoutError(msg);
@@ -276,21 +207,29 @@ export default function CartSidebar() {
                 <p className="font-bold text-white font-orbitron tracking-wide">{nick}</p>
               </div>
 
-              <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">Datos de tarjeta</p>
+              <div className="glass rounded-xl p-4 text-center space-y-3">
+                <p className="text-sm text-gray-300">
+                  Serás redirigido a la página segura de pago de Conekta para completar tu compra.
+                </p>
+                <p className="text-xs text-gray-500">
+                  Aceptamos Visa, Mastercard y American Express
+                </p>
+              </div>
 
-              {/* Iframe de Conekta */}
-              <div
-                id="conekta-iframe"
-                className="w-full rounded-xl overflow-hidden"
-                style={{ minHeight: '280px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(179,71,255,0.2)' }}
-              />
-
-              {loading && (
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
-                  <Loader2 size={16} className="animate-spin" />
-                  Procesando pago...
-                </div>
-              )}
+              <button
+                onClick={handleCheckout}
+                disabled={loading}
+                className="w-full py-3.5 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50"
+                style={{
+                  background: 'linear-gradient(135deg, #1a56db 0%, #1e40af 100%)',
+                  boxShadow: '0 4px 20px rgba(26, 86, 219, 0.3)',
+                  color: '#fff',
+                  border: '1px solid rgba(26, 86, 219, 0.3)',
+                }}
+              >
+                {loading ? <Loader2 size={16} className="animate-spin" /> : null}
+                {loading ? 'Procesando...' : 'Pagar con Tarjeta'}
+              </button>
 
               {checkoutError && (
                 <div className="rounded-xl p-3 text-xs text-red-300 border border-red-500/20 bg-red-900/10">
