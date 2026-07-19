@@ -8,16 +8,27 @@ const corsHeaders = {
 };
 
 const RANK_COMMANDS: Record<string, string> = {
+  // MODS
   'rank-lord':     'lp user {nick} parent addtemp lord-tier2 30d',
   'rank-vizconde': 'lp user {nick} parent addtemp vizconde-tier3 30d',
   'rank-conde':    'lp user {nick} parent addtemp conde-tier4 30d',
   'rank-alteza':   'lp user {nick} parent addtemp alteza-tier5 30d',
+  // VANILLA
+  'v-rank-lord':     'lp user {nick} parent addtemp v-lord-tier2 30d',
+  'v-rank-vizconde': 'lp user {nick} parent addtemp v-vizconde-tier3 30d',
+  'v-rank-conde':    'lp user {nick} parent addtemp v-conde-tier4 30d',
+  'v-rank-alteza':   'lp user {nick} parent addtemp v-alteza-tier5 30d',
 };
 
 const CHUNK_COMMANDS: Record<string, string> = {
+  // MODS
   'acc-chunks-20':  'ftbchunks admin extra_claim_chunks {nick} add 20',
   'acc-chunks-50':  'ftbchunks admin extra_claim_chunks {nick} add 50',
   'acc-chunks-100': 'ftbchunks admin extra_claim_chunks {nick} add 100',
+  // VANILLA
+  'v-acc-chunks-20':  'ftbchunks admin extra_claim_chunks {nick} add 20',
+  'v-acc-chunks-50':  'ftbchunks admin extra_claim_chunks {nick} add 50',
+  'v-acc-chunks-100': 'ftbchunks admin extra_claim_chunks {nick} add 100',
 };
 
 async function sendRconCommand(command: string): Promise<boolean> {
@@ -86,12 +97,87 @@ async function sendDiscordNotification(nick: string, items: Array<{id: string; n
   });
 }
 
+// Clave pública RSA de Conekta para verificar webhooks
+const CONEKTA_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6aIHtWet9sxmIGvrk2uB
+RK38ksGy5l38dRcpeF+rW6V2gx8UDC4LyIvoNyfOCWoSkr5ng7Llqa/BdZtprNH7
+qvnmLVBG8dLlvdkVjOyzoZzx/K+sRcDQCV0EMc7Q1Rul+JgxZa/3HXQTq6aPev3n
+qgHLuhMFoqG0MH56bYBWgD78LmZeVX5b4xja0vdBC9j/HUZAodDOugEiGnCEFDwS
+n0XNTpNOFErI8EaphGRuLAn6DIJn8VfchpfJvKkLiQsxKSnJocu8dMXI7I6sdFxT
+Wg5nGBCzEkl/1ctauUC9/E9ncF3ZX7LID8V0s4PvzCGIlSpb8/6B6eh11nddYZuy
+IwIDAQAB
+-----END PUBLIC KEY-----`;
+
+/**
+ * Verifica la firma RSA-SHA256 de un webhook de Conekta.
+ * Conekta firma el body del request con RSA y envía la firma en base64
+ * en el header "X-Signature".
+ */
+async function verifyConektaSignature(body: string, signatureHeader: string | null): Promise<boolean> {
+  if (!signatureHeader) {
+    console.error("Webhook rechazado: falta header X-Signature");
+    return false;
+  }
+
+  try {
+    // Decodificar la firma base64
+    const signatureBase64 = signatureHeader.trim();
+    const signatureBytes = Uint8Array.from(atob(signatureBase64), c => c.charCodeAt(0));
+
+    // Importar la clave pública RSA
+    const pemHeader = "-----BEGIN PUBLIC KEY-----";
+    const pemFooter = "-----END PUBLIC KEY-----";
+    const pemContent = CONEKTA_PUBLIC_KEY
+      .replace(pemHeader, "")
+      .replace(pemFooter, "")
+      .replace(/\s/g, "");
+    const derBytes = Uint8Array.from(atob(pemContent), c => c.charCodeAt(0));
+
+    const cryptoKey = await crypto.subtle.importKey(
+      "spki",
+      derBytes,
+      { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+      false,
+      ["verify"]
+    );
+
+    // Verificar la firma
+    const bodyBytes = new TextEncoder().encode(body);
+    const isValid = await crypto.subtle.verify(
+      "RSASSA-PKCS1-v1_5",
+      cryptoKey,
+      signatureBytes,
+      bodyBytes
+    );
+
+    if (!isValid) {
+      console.error("Webhook rechazado: firma RSA inválida");
+    }
+    return isValid;
+  } catch (err) {
+    console.error("Error verificando firma RSA:", err);
+    return false;
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
   try {
+    // Leer el body como texto para verificar firma
+    const bodyText = await req.text();
+    const signatureHeader = req.headers.get("X-Signature");
+
+    const isValid = await verifyConektaSignature(bodyText, signatureHeader);
+    if (!isValid) {
+      return new Response(
+        JSON.stringify({ error: "Firma inválida" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const serviceRoleKey = Deno.env.get("SR_KEY");
     if (!serviceRoleKey) {
       return new Response(JSON.stringify({ error: "SR_KEY no configurado" }), {
@@ -100,7 +186,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const supabase = createClient("https://mkgspobqmvekpuvfluxi.supabase.co", serviceRoleKey);
-    const body = await req.json();
+    const body = JSON.parse(bodyText);
 
     console.log("conekta-webhook evento recibido:", body.type);
 

@@ -7,14 +7,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+// Precios oficiales (basados en frontend)
 const VALID_PRICES: Record<string, { name: string; price: number }> = {
-  'rank-lord':        { name: 'Rango Lord',             price: 3.99  },
+  // MODS
+  'rank-lord':        { name: 'Rango Lord',             price: 0.60  },
   'rank-vizconde':    { name: 'Rango Vizconde',         price: 5.99  },
-  'rank-conde':       { name: 'Rango Conde',            price: 10.99 },
+  'rank-conde':       { name: 'Rango Conde',            price: 9.34  },
   'rank-alteza':      { name: 'Rango Alteza',           price: 13.59 },
   'acc-chunks-20':    { name: 'Chunks x20',             price: 2.99  },
   'acc-chunks-50':    { name: 'Chunks x50',             price: 6.99  },
   'acc-chunks-100':   { name: 'Chunks x100',            price: 9.99  },
+  // VANILLA
   'v-rank-lord':      { name: 'Rango Lord Vanilla',     price: 3.99  },
   'v-rank-vizconde':  { name: 'Rango Vizconde Vanilla', price: 5.99  },
   'v-rank-conde':     { name: 'Rango Conde Vanilla',    price: 10.99 },
@@ -88,7 +91,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Validar precios
+    // Validar precios contra backend
     for (const item of items) {
       const valid = VALID_PRICES[item.id];
       if (!valid) {
@@ -106,7 +109,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const server = items.some((i: { server?: string }) =>
-      i.server === 'vanilla' || i.server === 'Vanilla'
+      i.server === 'Vanilla' || i.server === 'vanilla'
     ) ? 'vanilla' : 'mods';
 
     const total = items.reduce((sum: number, item: { id: string; quantity: number }) => {
@@ -132,13 +135,13 @@ Deno.serve(async (req: Request) => {
 
     const origin = req.headers.get("origin") || "https://bolaland.pages.dev";
 
-    // Crear checkout session hosted en Conekta
     const lineItems = items.map((item: { id: string; quantity: number }) => ({
       name: VALID_PRICES[item.id].name,
       unit_price: Math.round(VALID_PRICES[item.id].price * 100),
       quantity: item.quantity,
     }));
 
+    // Crear checkout hosted en Conekta
     const conektaResponse = await fetch("https://api.conekta.io/checkouts", {
       method: "POST",
       headers: {
@@ -147,24 +150,33 @@ Deno.serve(async (req: Request) => {
         "Authorization": `Basic ${btoa(conektaKey + ":")}`,
       },
       body: JSON.stringify({
-        type: "HostedPayment",
-        name: `BolaLand — ${minecraft_nick}`,
+        name: `BolaLand Tienda`,
+        type: "PaymentLink",
+        recurrent: false,
+        needs_shipping_contact: false,
+        allowed_payment_methods: ["card"],
         success_url: `${origin}/pago-realizado`,
         failure_url: `${origin}/pago-fallido`,
-        expires_at: Math.floor(Date.now() / 1000) + 3600, // 1 hora
-        allowed_payment_methods: ["card"],
-        currency: "usd",
-        metadata: {
-          order_id: order.id,
-          minecraft_nick: minecraft_nick.trim(),
-          server,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
+        order_template: {
+          line_items: lineItems,
+          currency: "usd",
+          customer_info: {
+            name: minecraft_nick,
+            email: `${minecraft_nick}@bolaland.net`,
+            phone: "+5215500000000",
+          },
+          metadata: {
+            order_id: order.id,
+            minecraft_nick: minecraft_nick.trim(),
+            server,
+          },
         },
-        line_items: lineItems,
       }),
     });
 
     const conektaData = await conektaResponse.json();
-    console.log("Conekta response:", JSON.stringify(conektaData));
+    console.log("Conekta checkout response:", JSON.stringify(conektaData));
 
     if (!conektaResponse.ok) {
       console.error("Conekta error:", conektaData);
@@ -175,7 +187,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Guardar el ID del checkout de Conekta
+    // Guardar ID del checkout de Conekta
     await supabase
       .from("orders")
       .update({ stripe_session_id: conektaData.id })
