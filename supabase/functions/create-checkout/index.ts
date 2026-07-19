@@ -160,9 +160,9 @@ Deno.serve(async (req: Request) => {
         expires_at: Math.floor(Date.now() / 1000) + 3600,
         order_template: {
           line_items: lineItems,
-          currency: "usd",
+          currency: "MXN",
           customer_info: {
-            name: minecraft_nick,
+            name: "BolaLand Player",
             email: `${minecraft_nick}@bolaland.net`,
             phone: "+5215500000000",
           },
