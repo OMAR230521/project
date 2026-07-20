@@ -1,2 +1,8 @@
 [functions.stripe-webhook]
 verify_jwt = false
+
+[functions.ls-webhook]
+verify_jwt = false
+
+[functions.ls-create-checkout]
+verify_jwt = false
