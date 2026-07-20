@@ -193,7 +193,8 @@ Deno.serve(async (req: Request) => {
               logo: true,
               dark: true,
             },
-            prefill: {
+            checkout_data: {
+              email: `${minecraft_nick}@bolaland.net`,
               name: minecraft_nick,
               custom: {
                 order_id: order.id,
