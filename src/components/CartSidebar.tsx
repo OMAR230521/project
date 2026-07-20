@@ -30,7 +30,7 @@ export default function CartSidebar() {
     setLoading(true);
     setCheckoutError('');
     try {
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
+      const { data, error } = await supabase.functions.invoke('ls-create-checkout', {
         body: {
           items: items.map(i => ({
             id: i.id,
@@ -41,7 +41,6 @@ export default function CartSidebar() {
             server: i.server,
           })),
           minecraft_nick: nick.trim(),
-          payment_method: 'conekta',
         },
       });
 
@@ -209,10 +208,10 @@ export default function CartSidebar() {
 
               <div className="glass rounded-xl p-4 text-center space-y-3">
                 <p className="text-sm text-gray-300">
-                  Serás redirigido a la página segura de pago de Conekta para completar tu compra.
+                  Serás redirigido a la página segura de pago de Lemon Squeezy para completar tu compra.
                 </p>
                 <p className="text-xs text-gray-500">
-                  Aceptamos Visa, Mastercard y American Express
+                  Aceptamos Visa, Mastercard, American Express y PayPal
                 </p>
               </div>
 
