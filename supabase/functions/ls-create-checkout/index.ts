@@ -179,8 +179,6 @@ Deno.serve(async (req: Request) => {
         data: {
           type: "checkouts",
           attributes: {
-            store_id: parseInt(storeId),
-            variant_id: CART_VARIANT_ID,
             custom_price: Math.round(total * 100), // en centavos de USD
             product_options: {
               name: "BolaLand Tienda",
@@ -204,6 +202,20 @@ Deno.serve(async (req: Request) => {
                   id: i.id,
                   quantity: i.quantity,
                 }))),
+              },
+            },
+          },
+          relationships: {
+            store: {
+              data: {
+                type: "stores",
+                id: storeId,
+              },
+            },
+            variant: {
+              data: {
+                type: "variants",
+                id: String(CART_VARIANT_ID),
               },
             },
           },
